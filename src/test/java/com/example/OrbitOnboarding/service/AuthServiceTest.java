@@ -1,0 +1,138 @@
+package com.example.OrbitOnboarding.service;
+
+
+import com.example.OrbitOnboarding.dto.request.LoginRequest;
+import com.example.OrbitOnboarding.dto.request.RegisterRequest;
+import com.example.OrbitOnboarding.dto.response.AuthResponse;
+import com.example.OrbitOnboarding.entity.Role;
+import com.example.OrbitOnboarding.entity.User;
+import com.example.OrbitOnboarding.repository.UserRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+
+@ExtendWith({org.mockito.junit.jupiter.MockitoExtension.class})
+ class AuthServiceTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private JwtUtil jwtUtil;
+
+    @InjectMocks
+    private AuthService authService;
+
+    //Registering a User
+
+    private RegisterRequest registerRequest() {
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername("aniket");
+        request.setEmail("aniket@molx.com");
+        request.setPassword("Aniket101");
+        request.setFullName("Aniket Rai");
+        return request;
+    }
+
+    private LoginRequest loginRequest() {
+        LoginRequest request = new LoginRequest();
+        request.setUsername("aniket");
+        request.setPassword("Aniket101");
+        return request;
+    }
+
+
+
+
+
+
+    @Test
+    void shouldRegisterUserSuccessfully() {
+
+        RegisterRequest request = registerRequest();
+
+        when(userRepository.existsByUsername(anyString())).thenReturn(false);
+        when(userRepository.existsByEmail(anyString())).thenReturn(false);
+        when(passwordEncoder.encode(anyString())).thenReturn("encoded");
+
+        String result = authService.register(request);
+
+        assertEquals("User registered successfully", result);
+        verify(userRepository).save(any(User.class));
+    }
+
+    //Username Exists
+    @Test
+    void shouldThrowUsernameIfExist(){
+
+        RegisterRequest request = registerRequest();
+
+
+        when(userRepository.existsByUsername("aniket"))
+                .thenReturn(true);
+
+        assertThrows(ResponseStatusException.class,
+                () -> authService.register(request)); //
+    }
+
+    //login in user //
+    @Test
+    void shouldLoginSuccessfully() {
+
+        LoginRequest request = loginRequest();
+
+        User user = new User();
+        user.setUsername("aniket");
+        user.setPassword("encoded");
+        user.setRole(Role.USER);
+
+        when(userRepository.findByUsername(anyString()))
+                .thenReturn(Optional.of(user));
+
+        when(passwordEncoder.matches(anyString(), anyString()))
+                .thenReturn(true);
+
+        when(jwtUtil.generateToken(anyString(), anyString()))
+                .thenReturn("jwt-token");
+
+        AuthResponse response = authService.login(request);
+
+        assertEquals("jwt-token", response.getToken());
+    }
+
+   //Wrong password rejection
+    @Test
+    void shouldThrowIfPasswordInvalid() {
+
+        LoginRequest request = new LoginRequest();
+
+        User user = new User();
+        user.setUsername("aniket");
+        user.setPassword("Aniket101");
+
+        when(userRepository.findByUsername(anyString()))
+                .thenReturn(Optional.of(user));
+
+        when(passwordEncoder.matches(any(), any()))
+                .thenReturn(false);
+
+        assertThrows(RuntimeException.class,
+                () -> authService.login(request));
+    }
+}
