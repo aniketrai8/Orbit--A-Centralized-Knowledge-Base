@@ -80,8 +80,8 @@ Make sure you have:
 
 * Java 17+
 * PostgreSQL
-* Gradle (or use wrapper)
-* IntelliJ IDEA (recommended)
+* Gradle 
+* IntelliJ IDEA
 
 Check versions:
 
@@ -165,13 +165,16 @@ Authorization: Bearer <token>
 
 * Create article
 * Search articles
-* Update/Delete articles
+* Update articles
+* Delete articles
+* View modules ALL
+* View modules by ID
 
 ### ✅ Progress Tracking
 
 * Mark module completed
-* View completion summary
-* Track learning progress %
+* View completion summary (ADMIN Access)
+* Track learning progress (Indvisual User)
 
 ---
 
