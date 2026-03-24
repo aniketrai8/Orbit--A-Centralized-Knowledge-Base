@@ -225,7 +225,7 @@ https://localhost:9090/swagger-ui/index.html
 
 
 GitHub:
-https://github.com/aniketrai8
+http://github.com/aniketrai8
 
 ---
 
