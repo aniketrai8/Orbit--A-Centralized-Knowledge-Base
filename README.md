@@ -213,7 +213,7 @@ Tests include:
 ## API Documentation Link
 
 Swagger: 
-https://localhost:9090/swagger-ui/index.html
+http://localhost:9090/swagger-ui/index.html
 
 ---
 
@@ -225,7 +225,7 @@ https://localhost:9090/swagger-ui/index.html
 
 
 GitHub:
-http://github.com/aniketrai8
+https://github.com/aniketrai8
 
 ---
 
