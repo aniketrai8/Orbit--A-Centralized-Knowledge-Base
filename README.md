@@ -218,7 +218,7 @@ http://localhost:9090/swagger-ui/index.html
 ## 📮: Postman: 
 * You can test all APIs using the exported Postman Collection:
 
-* ✍️[Download Postman Collection](postman/Orbit-APIs.postman_collection.json)
+* ✍️[Download Postman Collection](https://github.com/aniketrai8/Orbit--A-Centralized-Knowledge-Base/blob/main/docs/Orbit-APIs.postman_collection.json)
 
 
 ## 🔰 How to Use -> 
