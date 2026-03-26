@@ -63,7 +63,7 @@ src/main/java/com/example/OrbitOnboarding
 
 ---
 
-##  Setup Instructions
+## 📓 Setup Instructions
 
 ### 1️⃣ Clone Repository
 
@@ -210,10 +210,22 @@ Tests include:
 }
 ```
 
-## API Documentation Link
+### 🔗  API Documentation Link
 
-Swagger: 
+## 🧮 Swagger: 
 http://localhost:9090/swagger-ui/index.html
+
+## 📮: Postman: 
+* You can test all APIs using the exported Postman Collection:
+
+* ✍️[Download Postman Collection](postman/Orbit-APIs.postman_collection.json)
+
+
+## 🔰 How to Use -> 
+* Import collection into Postman
+* Set `baseUrl` environment variable
+* Login to generate JWT
+* All APIs will auto-use token
 
 ---
 
