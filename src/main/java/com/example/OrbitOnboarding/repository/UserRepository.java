@@ -14,7 +14,7 @@ public interface UserRepository  extends JpaRepository<User,Long> {
     //SELECT * FROM users WHERE email=? LIMIT 1;
     Optional<User> findByEmail(String email);//required at login
 
-    //think maybe i can fix both one as together
+    //think maybe I can fix both one as together
 
     //SELECT 1 FROM users WHERE username=? LIMIT 1;
     boolean existsByUsername(String username);//to avoid dupilicate enteries

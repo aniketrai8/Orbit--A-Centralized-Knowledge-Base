@@ -3,8 +3,6 @@ package com.example.OrbitOnboarding.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import javax.lang.model.element.ModuleElement;
 import java.time.LocalDateTime;
 
 /*id: Primary key (auto-generated)
@@ -49,8 +47,8 @@ public class ModuleProgress {
     public ModuleProgress(User user,TrainingModule module,boolean completed,LocalDateTime createdAt,LocalDateTime completedAt){
     this.user=user;
     this.module=module;
-    this.completed=false;
-    this.createdAt=LocalDateTime.now();
+    this.completed=completed;
+    this.createdAt= createdAt!=null?createdAt:LocalDateTime.now();
     this.completedAt=LocalDateTime.now();
 }
 

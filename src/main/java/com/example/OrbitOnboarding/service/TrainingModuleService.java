@@ -8,10 +8,10 @@ import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.mapper.TrainingModuleMapper;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class TrainingModuleService {
     private final TrainingModuleMapper mapper;
 
 
+    @Transactional
     public TrainingModuleResponse createModule(TrainingModuleRequest request){
 
 
@@ -34,6 +35,7 @@ public class TrainingModuleService {
     }
 
 
+    @Transactional(readOnly = true)
     public List<TrainingModuleResponse> getAllModules() {
 
         return repository.findAll()
@@ -44,6 +46,7 @@ public class TrainingModuleService {
 
 
 
+    @Transactional(readOnly = true)
     public TrainingModuleResponse getModuleById(Long id) {
 
         TrainingModule module = repository.findById(id)
@@ -52,6 +55,7 @@ public class TrainingModuleService {
         return mapper.toResponse(module);
     }
 
+    @Transactional
     public TrainingModuleResponse updateModule(Long id, TrainingModuleRequest request){
 
         TrainingModule module = repository.findById(id)
@@ -65,6 +69,7 @@ public class TrainingModuleService {
 
     }
 
+    @Transactional
     public void deleteModule(Long id){
         if(!repository.existsById(id)){
             throw new ResourceNotFoundException("Training Module does not exist");

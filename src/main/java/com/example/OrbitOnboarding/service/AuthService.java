@@ -1,5 +1,5 @@
 package com.example.OrbitOnboarding.service;
-//File needs to be re written adter the ReqisterRequest DTO class
+
 
 import com.example.OrbitOnboarding.dto.request.LoginRequest;
 import com.example.OrbitOnboarding.dto.request.RegisterRequest;
@@ -13,9 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.OrbitOnboarding.entity.Role;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
+
 
 @Getter
 @AllArgsConstructor
@@ -29,10 +30,11 @@ public class AuthService {
 
 
 
+    @Transactional
     public String register(RegisterRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Username not found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Username already exists");
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -58,6 +60,7 @@ public class AuthService {
     }
 
 
+    @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByUsername(request.getUsername())

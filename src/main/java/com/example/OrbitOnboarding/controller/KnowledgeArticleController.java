@@ -1,19 +1,18 @@
 package com.example.OrbitOnboarding.controller;
 
-
-
-
 import com.example.OrbitOnboarding.dto.request.KnowledgeCreateRequest;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleListResponse;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleResponse;
 import com.example.OrbitOnboarding.service.KnowledgeArticleService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+
+@Tag(name="Knowledge Article API",description = "Handles CRUD operations and search features")
 @RestController
 @RequestMapping("/api/knowledge")
 @RequiredArgsConstructor

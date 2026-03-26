@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
     @InjectMocks
     private AuthService authService;
 
-    //Registering a User
+    //Mocking a user registration
 
     private RegisterRequest registerRequest() {
         RegisterRequest request = new RegisterRequest();
@@ -61,7 +61,7 @@ import static org.mockito.Mockito.when;
 
 
 
-
+//Tets if the User can Login successfully
     @Test
     void shouldRegisterUserSuccessfully() {
 
@@ -77,7 +77,7 @@ import static org.mockito.Mockito.when;
         verify(userRepository).save(any(User.class));
     }
 
-    //Username Exists
+    //Tests if Username Exists
     @Test
     void shouldThrowUsernameIfExist(){
 
@@ -91,7 +91,7 @@ import static org.mockito.Mockito.when;
                 () -> authService.register(request)); //
     }
 
-    //login in user //
+    //Tests logging in of a User
     @Test
     void shouldLoginSuccessfully() {
 

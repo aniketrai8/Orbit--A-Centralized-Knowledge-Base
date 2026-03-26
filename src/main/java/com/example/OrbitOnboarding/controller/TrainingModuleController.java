@@ -3,16 +3,16 @@ package com.example.OrbitOnboarding.controller;
 import com.example.OrbitOnboarding.dto.request.TrainingModuleRequest;
 import com.example.OrbitOnboarding.dto.response.TrainingModuleResponse;
 import com.example.OrbitOnboarding.service.TrainingModuleService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name="Training Module APIs",description="Handles CRUD operation and search feature")
 @RestController
-@RequestMapping("api/training/module")
+@RequestMapping("/api/training/module")
 @RequiredArgsConstructor
 
 public class TrainingModuleController {

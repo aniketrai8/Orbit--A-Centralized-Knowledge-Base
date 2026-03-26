@@ -1,5 +1,5 @@
 
-        package com.example.OrbitOnboarding.repository;
+package com.example.OrbitOnboarding.repository;
 
 import com.example.OrbitOnboarding.entity.TrainingModule;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -3,14 +3,14 @@ package com.example.OrbitOnboarding.controller;
 import com.example.OrbitOnboarding.dto.response.ProgressSummaryResponse;
 import com.example.OrbitOnboarding.dto.response.TrainingProgressResponse;
 import com.example.OrbitOnboarding.service.ModuleProgressService;
-import jakarta.persistence.PrePersist;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name="Progress Status API",description = "Showcases Progress Percentage of Modules")
 @RestController
 @RequestMapping("/api/progress")
 @RequiredArgsConstructor

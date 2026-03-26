@@ -1,0 +1,2102 @@
+{
+  "info": {
+    "_postman_id": "fe028ebf-c710-4625-9360-603b815466fe",
+    "name": "Orbit-APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48872855",
+    "_collection_link": "https://go.postman.co/collection/48872855-fe028ebf-c710-4625-9360-603b815466fe?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"test_user\",\n    \"email\": \"test@molex.com\",\n    \"password\": \"WeakPass101\",\n    \"fullName\": \"Test User\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Existing Credentials",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"username\": \"test_user\",\n    \"email\": \"test@molex.com\",\n    \"password\": \"WeakPass101\",\n    \"fullName\": \"Test User\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:40:18 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"timestamp\": \"2026-03-26T17:10:18.506458\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"400 BAD_REQUEST \\\"Username already exists\\\"\",\n    \"path\": \"/api/auth/register\"\n}"
+            },
+            {
+              "name": "User Registered Successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"username\": \"delete_user\",\n    \"email\": \"delete@molex.com\",\n    \"password\": \"WeakPass105\",\n    \"fullName\": \"Delete User\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "28"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:44:16 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "User registered successfully"
+            }
+          ]
+        },
+        {
+          "name": "Login Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let jsonData = pm.response.json();",
+                  "pm.environment.set(\"jwt_token\", jsonData.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\":\"admin_user\",\n    \"password\":\"StrongPass101\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}api/auth/login",
+              "host": [
+                "{{baseUrl}}api"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Admin Request Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"username\":\"admin_user\",\n    \"password\":\"StrongPass101\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}api/auth/login",
+                  "host": [
+                    "{{baseUrl}}api"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 09:19:15 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbl91c2VyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc0NTE2NzU1LCJleHAiOjE3NzQ2MDMxNTV9.VNihOnYOMsVDK-b-9gE6rQkb-DZs9V3t9tTmnOY4ieQ\",\n    \"username\": \"admin_user\",\n    \"role\": \"ADMIN\"\n}"
+            },
+            {
+              "name": "Test User Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"username\":\"swagger_user\",\n    \"password\":\"WeakPass102\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}api/auth/login",
+                  "host": [
+                    "{{baseUrl}}api"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 09:21:22 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzd2FnZ2VyX3VzZXIiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc3NDUxNjg4MiwiZXhwIjoxNzc0NjAzMjgyfQ.cumk2U-I2FE7oqKb04dty3Z_YMbKvKMjJMLDf1VroJw\",\n    \"username\": \"swagger_user\",\n    \"role\": \"USER\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Training Module",
+      "item": [
+        {
+          "name": "Create Module",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "    pm.response.to.have.status.oneOf([200, 201]);",
+                  "});",
+                  "",
+                  "try {",
+                  "    let jsonData = pm.response.json();",
+                  "",
+                  "    if (jsonData && jsonData.id) {",
+                  "        pm.environment.set(\"training_id\", jsonData.id);",
+                  "        console.log(\"Saved Training ID:\", jsonData.id);",
+                  "    } else {",
+                  "        console.warn(\"Response JSON does not contain an 'id' field.\");",
+                  "    }",
+                  "} catch (e) {",
+                  "    console.error(\"Failed to parse response as JSON:\", e.message);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Java Streams\",\n  \"description\": \"Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements.\",\n  \"content\": \"Newer Version of Java now support Java Streams, enabling to reduce a lot of boilerplate code as a part of previous Java Versions.Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements\",\n  \"moduleOrder\": 11,\n  \"estimatedHour\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/training/module",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "training",
+                "module"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful creation of Module",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Java Streams\",\n  \"description\": \"Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements.\",\n  \"content\": \"Newer Version of Java now support Java Streams, enabling to reduce a lot of boilerplate code as a part of previous Java Versions.Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements\",\n  \"moduleOrder\": 11,\n  \"estimatedHour\": 8\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:26:14 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 10,\n    \"title\": \"Java Streams\",\n    \"description\": \"Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements.\",\n    \"content\": \"Newer Version of Java now support Java Streams, enabling to reduce a lot of boilerplate code as a part of previous Java Versions.Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements\",\n    \"moduleOrder\": 11,\n    \"estimatedHour\": 8,\n    \"createdBy\": null,\n    \"createdAt\": \"2026-03-26T16:56:14.228302\",\n    \"updatedAt\": null\n}"
+            },
+            {
+              "name": "Access Denied",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Java Streams\",\n  \"description\": \"Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements.\",\n  \"content\": \"Newer Version of Java now support Java Streams, enabling to reduce a lot of boilerplate code as a part of previous Java Versions.Java Streams are a mordern way of working with collections in Java. They provide a high-level abstraction for processing sequences of elements\",\n  \"moduleOrder\": 11,\n  \"estimatedHour\": 8\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:47:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"timestamp\": \"2026-03-26T17:17:25.588572\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/training/module\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Modules",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\",function(){",
+                  "    pm.response.to.have.status(200);",
+                  "",
+                  "});",
+                  "",
+                  "pm.test(\"Response is Array\",function(){",
+                  " pm.expect(pm.response.json()).to.be.an(\"array\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/training/module",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "training",
+                "module"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Retrieval of all Modules",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbl91c2VyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc0NTIwNDkwLCJleHAiOjE3NzQ2MDY4OTB9.aRWC14ZowW8rVaoM5AzMso1LxDYUQ9tiHe-k06aSv88",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:24:59 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Java Basics for Backend Development\",\n        \"description\": \"Learn core Java concepts required for backend application development.\",\n        \"content\": \"This module introduces Java syntax, object oriented programming, classes, interfaces, exception handling and collections used in enterprise backend systems.\",\n        \"moduleOrder\": 1,\n        \"estimatedHour\": 6,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:27:50.244723\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Spring Boot Fundamentals\",\n        \"description\": \"Understand Spring Boot architecture and REST API creation.\",\n        \"content\": \"Covers dependency injection, annotations, REST controllers, service layers and configuration required to build scalable Spring Boot applications.\",\n        \"moduleOrder\": 2,\n        \"estimatedHour\": 8,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:28:09.652155\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 3,\n        \"title\": \"Database and JPA Integration\",\n        \"description\": \"Learn how to integrate relational databases using JPA.\",\n        \"content\": \"Explains entity mapping, repositories, relationships, query methods and transaction management using Spring Data JPA.\",\n        \"moduleOrder\": 3,\n        \"estimatedHour\": 7,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:28:23.701132\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 4,\n        \"title\": \"REST API Design Principles\",\n        \"description\": \"Best practices for designing maintainable REST APIs.\",\n        \"content\": \"Focuses on resource naming, HTTP methods, status codes, versioning strategies and API documentation standards.\",\n        \"moduleOrder\": 4,\n        \"estimatedHour\": 5,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:28:36.324934\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 5,\n        \"title\": \"Authentication and Authorization\",\n        \"description\": \"Implement secure authentication using JWT and role based access.\",\n        \"content\": \"Explains login flow, token generation, security filters, role permissions and endpoint protection in Spring Security.\",\n        \"moduleOrder\": 5,\n        \"estimatedHour\": 9,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:28:50.701183\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 6,\n        \"title\": \"Exception Handling and Validation\",\n        \"description\": \"Centralized exception handling and request validation techniques.\",\n        \"content\": \"Teaches global exception handling using RestControllerAdvice, validation annotations and consistent API error responses.\",\n        \"moduleOrder\": 6,\n        \"estimatedHour\": 4,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:29:02.802914\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 7,\n        \"title\": \"Testing Spring Boot Applications\",\n        \"description\": \"Unit and integration testing for backend services.\",\n        \"content\": \"Includes writing JUnit tests, mocking dependencies, testing controllers and validating API responses automatically.\",\n        \"moduleOrder\": 7,\n        \"estimatedHour\": 6,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:29:14.905519\",\n        \"updatedAt\": null\n    },\n    {\n        \"id\": 8,\n        \"title\": \"Containerization\",\n        \"description\": \"Importance of Docker and Kubernates in Mordern Devlopmnent\",\n        \"content\": \"Covers environment configuration, logging strategies, containerization basics and deployment pipeline overview.\",\n        \"moduleOrder\": 8,\n        \"estimatedHour\": 8,\n        \"createdBy\": null,\n        \"createdAt\": \"2026-03-23T17:29:26.551196\",\n        \"updatedAt\": \"2026-03-26T16:48:00.872193\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Modules By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function() {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Correct Training fetched\", function () {",
+                  "    let data = pm.response.json();",
+                  "    pm.expect(data.id).to.eql(Number(pm.environment.get(\"training_id\")));",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/training/module/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "training",
+                "module",
+                "3"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Succesfull Retrieval",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbl91c2VyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc0NTIwNDkwLCJleHAiOjE3NzQ2MDY4OTB9.aRWC14ZowW8rVaoM5AzMso1LxDYUQ9tiHe-k06aSv88",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module/3",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module",
+                    "3"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 10:40:06 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 3,\n    \"title\": \"Database and JPA Integration\",\n    \"description\": \"Learn how to integrate relational databases using JPA.\",\n    \"content\": \"Explains entity mapping, repositories, relationships, query methods and transaction management using Spring Data JPA.\",\n    \"moduleOrder\": 3,\n    \"estimatedHour\": 7,\n    \"createdBy\": null,\n    \"createdAt\": \"2026-03-23T17:28:23.701132\",\n    \"updatedAt\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Module",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Updated successfully\",function(){",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "let updated = pm.response.json();",
+                  "",
+                  "pm.test(\"Training updated\",function(){",
+                  "    pm.expect(updated.id).to.exist;",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/training/module/{{training_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "training",
+                "module",
+                "{{training_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Update of Module",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Containerization\",\n  \"description\": \"Importance of Docker and Kubernates in Mordern Devlopmnent\",\n  \"content\": \"Docker suggests a way of how to package and run applications in a container. Kubernetes is a platform that automates the deployment, scaling, and management of containerized applications.\",\n  \"moduleOrder\": 19,\n  \"estimatedHour\": 11\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module/8",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module",
+                    "8"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:18:00 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 8,\n    \"title\": \"Containerization\",\n    \"description\": \"Importance of Docker and Kubernates in Mordern Devlopmnent\",\n    \"content\": \"Covers environment configuration, logging strategies, containerization basics and deployment pipeline overview.\",\n    \"moduleOrder\": 8,\n    \"estimatedHour\": 8,\n    \"createdBy\": null,\n    \"createdAt\": \"2026-03-23T17:29:26.551196\",\n    \"updatedAt\": null\n}"
+            },
+            {
+              "name": "Access Denied",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Containerization\",\n  \"description\": \"Importance of Docker and Kubernates in Mordern Devlopmnent\",\n  \"content\": \"Docker suggests a way of how to package and run applications in a container. Kubernetes is a platform that automates the deployment, scaling, and management of containerized applications.\",\n  \"moduleOrder\": 19,\n  \"estimatedHour\": 11\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module/8",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module",
+                    "8"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:48:46 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"timestamp\": \"2026-03-26T17:18:46.536789\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/training/module/8\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Module",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Deleted Successfully\",function(){",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.environment.unset(\"training_id\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/training/module/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "training",
+                "module",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful deletion",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module/11",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module",
+                    "11"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:27:55 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Training module deleted successfully"
+            },
+            {
+              "name": "404 error due to Lack of Resource",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module/11",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module",
+                    "11"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:28:28 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"timestamp\": \"2026-03-26T16:58:28.738103\",\n    \"status\": 404,\n    \"error\": \"Resource Not Found\",\n    \"message\": \"Training Module does not exist\",\n    \"path\": \"/api/training/module/11\"\n}"
+            },
+            {
+              "name": "Access Denied",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/training/module/10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "training",
+                    "module",
+                    "10"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:50:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"timestamp\": \"2026-03-26T17:20:33.337419\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/training/module/10\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Knowledge Article",
+      "item": [
+        {
+          "name": "Create Article",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/knowledge",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "knowledge"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Article Successfully created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"category\": \"GIT_WORKFLOW\",\n  \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n  \"content\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/knowledge",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "knowledge"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:54:49 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"category\": \"GIT_WORKFLOW\",\n    \"id\": 10,\n    \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n    \"content\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n    \"createdBy\": \"admin_user\",\n    \"createdAt\": \"2026-03-26T17:24:49.817977\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Article",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/knowledge",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "knowledge"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Lacking Resource",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/knowledge/6",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "knowledge",
+                    "6"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 12:03:00 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"timestamp\": \"2026-03-26T17:33:00.832351\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Required request body is missing: public com.example.OrbitOnboarding.dto.response.KnowledgeArticleResponse com.example.OrbitOnboarding.controller.KnowledgeArticleController.update(java.lang.Long,com.example.OrbitOnboarding.dto.request.KnowledgeCreateRequest)\",\n    \"path\": \"/api/knowledge/6\"\n}"
+            },
+            {
+              "name": "Successfully Updated Article",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"category\": \"GIT_WORKFLOW\",\n  \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n  \"content\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/knowledge/6",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "knowledge",
+                    "6"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 12:11:01 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"category\": \"GIT_WORKFLOW\",\n    \"id\": 6,\n    \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n    \"content\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n    \"createdBy\": \"admin_user\",\n    \"createdAt\": \"2026-03-23T17:30:52.758934\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Article All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/knowledge",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "knowledge"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Retrieval of All Article",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/knowledge",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "knowledge"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:58:40 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Branching Strategy Overview\",\n        \"category\": \"GIT_WORKFLOW\"\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Commit Message Guidelines\",\n        \"category\": \"GIT_WORKFLOW\"\n    },\n    {\n        \"id\": 3,\n        \"title\": \"Backend Technology Stack\",\n        \"category\": \"TECH_STACK_OVERVIEW\"\n    },\n    {\n        \"id\": 4,\n        \"title\": \"Java Coding Conventions\",\n        \"category\": \"CODING_STANDARDS\"\n    },\n    {\n        \"id\": 5,\n        \"title\": \"Unit Testing Expectations\",\n        \"category\": \"TESTING_GUIDELINES\"\n    },\n    {\n        \"id\": 6,\n        \"title\": \"Deployment Pipeline Steps\",\n        \"category\": \"DEPLOYMENT_PROCESS\"\n    },\n    {\n        \"id\": 7,\n        \"title\": \"Engineering Team Roles\",\n        \"category\": \"TEAM_STRUCTURE\"\n    },\n    {\n        \"id\": 9,\n        \"title\": \"Security Architecture Basics\",\n        \"category\": \"TECH_STACK_OVERVIEW\"\n    },\n    {\n        \"id\": 10,\n        \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n        \"category\": \"GIT_WORKFLOW\"\n    },\n    {\n        \"id\": 11,\n        \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n        \"category\": \"GIT_WORKFLOW\"\n    },\n    {\n        \"id\": 12,\n        \"title\": \"Git workflow defines on how we strategize our branches, and figure out what branching name conventions to follow and what ways to fix a merge issue\",\n        \"category\": \"GIT_WORKFLOW\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Article By Id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/knowledge/{{knowledge_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "knowledge",
+                "{{knowledge_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Retrieval of Article by ID",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/knowledge/9",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "knowledge",
+                    "9"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 11:59:59 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"category\": \"TECH_STACK_OVERVIEW\",\n    \"id\": 9,\n    \"title\": \"Security Architecture Basics\",\n    \"content\": \"Authentication uses JWT tokens while authorization is handled through role based access control.\",\n    \"createdBy\": \"admin_user\",\n    \"createdAt\": \"2026-03-23T17:34:38.978736\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Article",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/knowledge/{{knowledge_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "knowledge",
+                "{{knowledge_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successfully Deleted Article",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/knowledge/10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "knowledge",
+                    "10"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "30"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 26 Mar 2026 12:12:25 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Article Deletion was a Success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Module Progress",
+      "item": [
+        {
+          "name": "Mark Module as T",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/progress/{{module_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "progress",
+                "{{module_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Indivisual progress",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "progress"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Overall Progress",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "progress"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

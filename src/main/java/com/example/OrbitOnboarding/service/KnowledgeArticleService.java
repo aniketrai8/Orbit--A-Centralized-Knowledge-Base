@@ -13,6 +13,7 @@ import com.example.OrbitOnboarding.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class KnowledgeArticleService {
     private ArticleCategory category;
 
 
+    @Transactional
     public KnowledgeArticleResponse create(KnowledgeCreateRequest request) {
 
         KnowledgeArticle article = mapper.toEntity(request);
@@ -47,6 +49,7 @@ public class KnowledgeArticleService {
     }
 
 
+    @Transactional(readOnly = true)
     public List<KnowledgeArticleListResponse> listAll() {
 
         return repository.findAll()
@@ -56,15 +59,17 @@ public class KnowledgeArticleService {
     }
 
 
+    @Transactional(readOnly = true )
     public KnowledgeArticleResponse get(Long id) {
 
         KnowledgeArticle article = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Article not found"));
 
         return mapper.toResponse(article);
     }
 
 
+    @Transactional(readOnly = true)
     public List<KnowledgeArticleListResponse> search(String keyword) {
 
         return repository
@@ -76,6 +81,7 @@ public class KnowledgeArticleService {
     }
 
     //add update method
+    @Transactional
     public KnowledgeArticleResponse update(Long id,
                                            KnowledgeCreateRequest request) {
 
@@ -92,10 +98,11 @@ public class KnowledgeArticleService {
     }
 
     //add delete method
+    @Transactional
     public void delete(Long id) {
 
         KnowledgeArticle article = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Article not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Article does not exist"));
 
         repository.delete(article);
     }
