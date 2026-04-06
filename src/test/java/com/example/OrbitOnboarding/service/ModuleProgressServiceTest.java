@@ -1,5 +1,6 @@
 package com.example.OrbitOnboarding.service;
 
+import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
 import com.example.OrbitOnboarding.dto.response.ProgressSummaryResponse;
 import com.example.OrbitOnboarding.entity.ModuleProgress;
 import com.example.OrbitOnboarding.entity.TrainingModule;
@@ -9,6 +10,7 @@ import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
 import com.example.OrbitOnboarding.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,11 +65,11 @@ private User user;
     when(progressRepository.countByUserAndCompletedTrue(user)).thenReturn(4L);
 
 
-    ProgressSummaryResponse response = service.getMyProgress();
+    MyProgressSummary response = service.getMyProgress();
 
-    assertEquals(10, response.getTotalModules());
-    assertEquals(4, response.getCompletedModules());
-    assertEquals(40.0, response.getProgressPercentage());
+    assertEquals(10, response.getSummary().getTotalModules());
+    assertEquals(4, response.getSummary().getCompletedModules());
+    assertEquals(40.0, response.getSummary().getProgressPercentage());
 
 
 }

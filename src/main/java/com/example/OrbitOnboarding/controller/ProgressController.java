@@ -1,5 +1,7 @@
 package com.example.OrbitOnboarding.controller;
 
+import com.example.OrbitOnboarding.dto.response.ModuleCompletionResponse;
+import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
 import com.example.OrbitOnboarding.dto.response.ProgressSummaryResponse;
 import com.example.OrbitOnboarding.dto.response.TrainingProgressResponse;
 import com.example.OrbitOnboarding.service.ModuleProgressService;
@@ -20,18 +22,19 @@ public class ProgressController {
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping("/complete/{moduleId}")
-    public ResponseEntity<?> complete(@PathVariable Long moduleId) {
+    public ResponseEntity<ModuleCompletionResponse> complete(@PathVariable Long moduleId) {
 
-        moduleProgressService.markModuleComplete(moduleId); //
+        ModuleCompletionResponse response =
+                moduleProgressService.markModuleComplete(moduleId);
 
-        return ResponseEntity.ok("Module marked as completed");
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/my-progress")
-    public ProgressSummaryResponse getMyProgress() {
+    public ResponseEntity<MyProgressSummary> getMyProgress() {
 
-        return moduleProgressService.getMyProgress(); //
+        return ResponseEntity.ok(moduleProgressService.getMyProgress()); //
     }
 
     @GetMapping("/completed")
@@ -40,4 +43,6 @@ public class ProgressController {
 
         return moduleProgressService.getCompletedModules(); //
     }
+
+
 }

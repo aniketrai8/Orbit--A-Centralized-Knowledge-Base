@@ -1,5 +1,7 @@
 package com.example.OrbitOnboarding.service;
 
+import com.example.OrbitOnboarding.dto.response.ModuleCompletionResponse;
+import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
 import com.example.OrbitOnboarding.dto.response.ProgressSummaryResponse;
 import com.example.OrbitOnboarding.dto.response.TrainingProgressResponse;
 import com.example.OrbitOnboarding.entity.ModuleProgress;
@@ -9,6 +11,7 @@ import com.example.OrbitOnboarding.exception.DuplicateResource;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.repository.ModuleProgressRepository;
 import com.example.OrbitOnboarding.repository.UserRepository;
+import lombok.Builder;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import java.util.List;
 
 @Getter
 @Service
+@Builder
 @RequiredArgsConstructor
 public class ModuleProgressService {
 
@@ -30,15 +34,15 @@ public class ModuleProgressService {
 
 
     //logged in User
-    private User getCurrentUser(){
-        String username= SecurityContextHolder.getContext()
+    private User getCurrentUser() {
+        String username = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
 
         System.out.println("SPRING SECURITY USERNAME = " + username);
 
-        User user= userRepository.findByUsername(username)
-                .orElseThrow(()-> new ResourceNotFoundException("User not Found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not Found"));
 
         System.out.println("DB USER FOUND ID = " + user.getId());
 
@@ -46,24 +50,24 @@ public class ModuleProgressService {
 
     }
 
-//Transcation Annotation to keep changes in data consistent
+    //Transcation Annotation to keep changes in data consistent
     @Transactional
-    public void markModuleComplete(Long moduleId){
+    public ModuleCompletionResponse markModuleComplete(Long moduleId) {
 
         User user = getCurrentUser();
 
         TrainingModule module = moduleRepository.findById(moduleId)
-                .orElseThrow(()-> new ResourceNotFoundException("Module Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Module Not Found"));
 
         //not allowing duplicate completion
         //PRD requires a single module to be marked completed on
         //
 
-        progressRepository.findByUserAndModule(user,module).ifPresent(p -> {
+        progressRepository.findByUserAndModule(user, module).ifPresent(p -> {
             throw new DuplicateResource("Module Already completed"); //check once before finalizing
         });
 
-        ModuleProgress progress= ModuleProgress.builder()
+        ModuleProgress progress = ModuleProgress.builder()
                 .user(user)
                 .module(module)
                 .completed(true)
@@ -72,36 +76,72 @@ public class ModuleProgressService {
 
         progressRepository.save(progress);
 
+        long totalModules = moduleRepository.count();
+        long completedModules = progressRepository.countByUserAndCompletedTrue(user);
+
+        double percentage =
+                ((double) completedModules / totalModules) * 100;
+
+
+        return ModuleCompletionResponse.builder()
+                .message("Module marked as complete")
+                .moduleId(module.getId())
+                .moduleTitle(module.getTitle())
+                .completedAt(progress.getCompletedAt())
+                .progressPercentage(percentage)
+                .build();
+
     }
 
     //Progress Summary Percentage
     //
-    @Transactional(readOnly=true)
-    public ProgressSummaryResponse getMyProgress(){
+    @Transactional(readOnly = true)
+    public MyProgressSummary getMyProgress() {
         User user = getCurrentUser();
 
 
-        int totalModules = (int)moduleRepository.count();
+        long totalModules = moduleRepository.count();
+        long completedModule = progressRepository.countByUserAndCompletedTrue(user);
+        double percentage = totalModules == 0 ? 0 :
+                (completedModule * 100.0) / totalModules;
 
-        int completedModule = (int)progressRepository.countByUserAndCompletedTrue(user);
 
-        double percentage =
-                totalModules == 0 ? 0 :
-                        (completedModule * 100.0)/totalModules;
+        ProgressSummaryResponse summary =
+                new ProgressSummaryResponse(
+                        totalModules,
+                        completedModule,
+                        percentage
+                );
 
-        return new ProgressSummaryResponse(
-                totalModules,
-                completedModule,
-                percentage
-        );
+        MyProgressSummary.UserInfo userInfo =
+                new MyProgressSummary.UserInfo(
+                        user.getUsername(),
+                        user.getFullName()
+                );
+
+        //Module Details
+        List<TrainingProgressResponse> moduleDetails =
+                progressRepository.findByUser(user)
+                        .stream()
+                        .map(progress -> TrainingProgressResponse.builder()
+                                .moduleId(progress.getModule().getId())
+                                .moduleTitle(progress.getModule().getTitle())
+                                .completed(progress.isCompleted())
+                                .completedAt(progress.getCompletedAt())
+                                .build())
+                        .toList();
+
+        return MyProgressSummary.builder()
+                .user(userInfo)
+                .summary(summary)
+                .moduleDetails(moduleDetails)
+                .build();
 
 
     }
 
-    //List Completed Modules
-    //
-    @Transactional(readOnly=true)
-    public List<TrainingProgressResponse> getCompletedModules(){
+    @Transactional(readOnly = true)
+    public List<TrainingProgressResponse> getCompletedModules() {
 
         User user = getCurrentUser();
 
@@ -115,7 +155,4 @@ public class ModuleProgressService {
                         .build())
                 .toList();
     }
-
-
-
 }

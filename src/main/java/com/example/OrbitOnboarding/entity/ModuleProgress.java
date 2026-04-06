@@ -43,6 +43,8 @@ public class ModuleProgress {
 
     private LocalDateTime createdAt;
 
+
+
 @Builder
     public ModuleProgress(User user,TrainingModule module,boolean completed,LocalDateTime createdAt,LocalDateTime completedAt){
     this.user=user;

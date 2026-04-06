@@ -8,8 +8,8 @@ import lombok.*;
 
 public class ProgressSummaryResponse {
 
-    private int totalModules;
-    private int completedModules;
+    private long totalModules;
+    private long completedModules;
     private double progressPercentage;
 
 

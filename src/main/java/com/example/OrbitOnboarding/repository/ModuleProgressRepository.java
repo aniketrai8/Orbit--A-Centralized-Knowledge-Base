@@ -23,6 +23,7 @@ public interface ModuleProgressRepository extends JpaRepository<ModuleProgress,L
     long countByUser(User user);
     long countByUserAndCompletedTrue(User user);
 
+
     //long countByModule(TrainingModule module);
 
 
