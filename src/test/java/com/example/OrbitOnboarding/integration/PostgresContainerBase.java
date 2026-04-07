@@ -10,16 +10,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 public abstract class PostgresContainerBase {
 
-    private static final PostgreSQLContainer<?> POSTGRES;
-
-    static {
-        POSTGRES = new PostgreSQLContainer<>("postgres:15-alpine")
-                .withDatabaseName("orbit_test")
-                .withUsername("test")
-                .withPassword("test");
-
-        POSTGRES.start(); // ⭐ start ONCE globally
-    }
+    @Container
+    static PostgreSQLContainer<?> POSTGRES =
+            new PostgreSQLContainer<>("postgres:15-alpine")
+                    .withDatabaseName("orbit_test")
+                    .withUsername("test")
+                    .withPassword("test");
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
