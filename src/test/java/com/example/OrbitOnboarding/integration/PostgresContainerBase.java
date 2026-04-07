@@ -9,21 +9,25 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 public abstract class PostgresContainerBase {
-    @Container
-    static PostgreSQLContainer<?> postgres =
-            new PostgreSQLContainer<>("postgres:15-alpine") //
-                    .withDatabaseName("orbit_test")
-                    .withUsername("test")
-                    .withPassword("test");
+
+    private static final PostgreSQLContainer<?> POSTGRES;
+
+    static {
+        POSTGRES = new PostgreSQLContainer<>("postgres:15-alpine")
+                .withDatabaseName("orbit_test")
+                .withUsername("test")
+                .withPassword("test");
+
+        POSTGRES.start(); // ⭐ start ONCE globally
+    }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
 
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
+        registry.add("spring.datasource.username", POSTGRES::getUsername);
+        registry.add("spring.datasource.password", POSTGRES::getPassword);
 
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
     }
-
 }
