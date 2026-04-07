@@ -21,7 +21,4 @@ jobs:
 
       
       - name: Run tests with Testcontainers (verbose)
-        run: ./gradlew test \
-             -Dspring.profiles.active=testcontainers \
-             --info \
-             --stacktrace
+        run: ./gradlew test -Dspring.profiles.active=testcontainers --info --stacktrace
