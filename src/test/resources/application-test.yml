@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:orbit-test-db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+  h2:
+    console:
+      enabled: true
+
+  sql:
+    init:
+      mode: never
+
+  server:
+    error:
+      include-message: always
+      include-binding-errors: always
+      include-stacktrace: always
