@@ -91,7 +91,7 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidLogin))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isBadRequest());
 
         }
 

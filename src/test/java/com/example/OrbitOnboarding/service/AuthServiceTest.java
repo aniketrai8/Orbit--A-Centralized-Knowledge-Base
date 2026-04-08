@@ -6,6 +6,7 @@ import com.example.OrbitOnboarding.dto.request.RegisterRequest;
 import com.example.OrbitOnboarding.dto.response.AuthResponse;
 import com.example.OrbitOnboarding.entity.Role;
 import com.example.OrbitOnboarding.entity.User;
+import com.example.OrbitOnboarding.exception.BadRequestException;
 import com.example.OrbitOnboarding.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -87,7 +88,7 @@ import static org.mockito.Mockito.when;
         when(userRepository.existsByUsername("aniket"))
                 .thenReturn(true);
 
-        assertThrows(ResponseStatusException.class,
+        assertThrows(BadRequestException.class,
                 () -> authService.register(request)); //
     }
 
