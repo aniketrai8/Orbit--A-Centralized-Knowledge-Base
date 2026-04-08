@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("testcontainers")
+@ActiveProfiles("test")
 @Import(org.testcontainers.utility.TestcontainersConfiguration.class)
 public abstract class BaseIntegrationTest extends ContainerPropertyInitializer{
 

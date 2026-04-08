@@ -32,4 +32,10 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/progress/" + module.getId()))
                 .andExpect(status().isForbidden());
     }
+
+    //shouldMarkModuleAsCompleted
+    //shouldNotAllowDuplicateCompletion
+    //shouldCalculatePercentageCorrectly
+    //shouldReturnUserProgress
+    //shouldAllowAdminToViewAllProgress
 }
