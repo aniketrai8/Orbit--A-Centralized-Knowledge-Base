@@ -116,7 +116,7 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
     void shouldRejectAccessWithoutToken() throws Exception{
 
         mockMvc.perform(get("/api/training-modules"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     //shouldRejectInvalidCredentials

@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 
 //Creating a centralized class for all Exceptions
 @RestControllerAdvice
-public class GlobalExceptionHandler{
+public class GlobalExceptionHandler {
     //Handles Exception for a missing username or email
     //404
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request){
+    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler{
 
         );
 
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 
     }
 
@@ -55,9 +55,9 @@ public class GlobalExceptionHandler{
     //Access Denied due to role Mismatch
     //403
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse>handleAccessDenied(Exception ex, HttpServletRequest request){
+    public ResponseEntity<ErrorResponse> handleAccessDenied(Exception ex, HttpServletRequest request) {
 
-        ErrorResponse error= new ErrorResponse(
+        ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.FORBIDDEN.value(),
                 "Access Denied",
@@ -65,14 +65,14 @@ public class GlobalExceptionHandler{
                 request.getRequestURI()
         );
 
-        return new ResponseEntity<>(error,HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
 
     }
 
     //Exception Highlighting duplicate enteries
     //409
     @ExceptionHandler(DuplicateResource.class)
-    public ResponseEntity<ErrorResponse>handleDuplicate(DuplicateResource ex,HttpServletRequest request){
+    public ResponseEntity<ErrorResponse> handleDuplicate(DuplicateResource ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
@@ -81,19 +81,17 @@ public class GlobalExceptionHandler{
                 request.getRequestURI()
         );
 
-        return new ResponseEntity<>(error,HttpStatus.CONFLICT);
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 
     }
-
-
 
 
 //Handles Validation Error
     //400
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse>handleValidation(
-            MethodArgumentNotValidException ex, HttpServletRequest request){
+    public ResponseEntity<ErrorResponse> handleValidation(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
 
         FieldError fieldError =
                 ex.getBindingResult().getFieldError();
@@ -115,19 +113,34 @@ public class GlobalExceptionHandler{
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse>handleGlobal(
-            Exception ex,HttpServletRequest request){
-        ErrorResponse error= new ErrorResponse(
+    public ResponseEntity<ErrorResponse> handleGlobal(
+            Exception ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal Server Error",
                 ex.getMessage(),
                 request.getRequestURI()
-                );
+        );
 
-        return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<?> handleBadRequest(BadRequestException ex,
+                                              HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 
 
+    }
 }
+

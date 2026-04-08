@@ -5,6 +5,7 @@ import com.example.OrbitOnboarding.dto.request.LoginRequest;
 import com.example.OrbitOnboarding.dto.request.RegisterRequest;
 import com.example.OrbitOnboarding.dto.response.AuthResponse;
 import com.example.OrbitOnboarding.entity.User;
+import com.example.OrbitOnboarding.exception.BadRequestException;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class AuthService {
     public String register(RegisterRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Username already exists");
+            throw new BadRequestException("Username already exists");
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -42,11 +43,8 @@ public class AuthService {
         }
 
         User user = new User();
-
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-
-
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         user.setFullName(request.getFullName());
@@ -67,7 +65,7 @@ public class AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new BadRequestException("Invalid password");
         }
 
         String token = jwtUtil.generateToken(
