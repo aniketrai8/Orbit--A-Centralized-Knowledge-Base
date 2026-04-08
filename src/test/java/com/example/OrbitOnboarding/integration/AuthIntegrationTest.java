@@ -1,22 +1,20 @@
 package com.example.OrbitOnboarding.integration;
 
 import org.junit.jupiter.api.Test;
-
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import java.util.UUID;
-
-
-
 
 public class AuthIntegrationTest extends BaseIntegrationTest {
 
+
     private String uniqueUsername() {
-        return "integration_user_" + UUID.randomUUID();
+        return "integration_user_" +
+                UUID.randomUUID().toString().substring(0, 8);
     }
 
     private String buildRegisterRequest(String username) {
@@ -39,7 +37,6 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
             """.formatted(username);
     }
 
-
     @Test
     void shouldRegisterUserSuccessfully() throws Exception {
 
@@ -48,7 +45,7 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(username))
+                        .content(buildRegisterRequest(username)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -58,20 +55,18 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
 
         String username = uniqueUsername();
 
-        // register first
+
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(buildRegisterRequest(username)))
-                        .andExpect(status().isOk());
-
-
-        //login
-        mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(buildRegisterRequest(username)))
+                .andExpect(status().isOk());
+
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildLoginRequest(username)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").exists());
     }
-
 }
