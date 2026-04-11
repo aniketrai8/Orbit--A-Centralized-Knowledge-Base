@@ -10,6 +10,10 @@ public interface TrainingModuleRepository extends JpaRepository<TrainingModule,L
 
     //SELECT * FROM training_module ORDER BY ASC;
     List<TrainingModule> findAllByOrderByModuleOrderAsc();
+
+    /**
+     * @return helps count total modules
+     */
     long count();
 }
 

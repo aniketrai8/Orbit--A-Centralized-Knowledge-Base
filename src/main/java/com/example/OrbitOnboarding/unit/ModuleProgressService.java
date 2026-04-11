@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 import com.example.OrbitOnboarding.dto.response.ModuleCompletionResponse;
 import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
@@ -33,7 +33,8 @@ public class ModuleProgressService {
     private final UserRepository userRepository;
 
 
-    //logged in User
+
+
     private User getCurrentUser() {
         String username = SecurityContextHolder.getContext()
                 .getAuthentication()
@@ -50,18 +51,29 @@ public class ModuleProgressService {
 
     }
 
-    //Transcation Annotation to keep changes in data consistent
+
+    /**
+     * @param moduleId Controller moves to this service layer where it operates like
+     *                 - logged-in user
+     *                 - fetches module by id
+     *                 - checks if already completed
+     *                 - saves progress
+     *                 - calculates progress
+     *                 - builds and returns DTO
+     *
+     *
+     *
+     * @return
+     */
     @Transactional
     public ModuleCompletionResponse markModuleComplete(Long moduleId) {
 
         User user = getCurrentUser();
-
         TrainingModule module = moduleRepository.findById(moduleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Module Not Found"));
 
-        //not allowing duplicate completion
+
         //PRD requires a single module to be marked completed on
-        //
 
         progressRepository.findByUserAndModule(user, module).ifPresent(p -> {
             throw new DuplicateResource("Module Already completed"); //check once before finalizing
@@ -78,10 +90,7 @@ public class ModuleProgressService {
 
         long totalModules = moduleRepository.count();
         long completedModules = progressRepository.countByUserAndCompletedTrue(user);
-
-        double percentage =
-                ((double) completedModules / totalModules) * 100;
-
+        double percentage = ((double) completedModules / totalModules) * 100;
 
         return ModuleCompletionResponse.builder()
                 .message("Module marked as complete")
@@ -93,8 +102,14 @@ public class ModuleProgressService {
 
     }
 
-    //Progress Summary Percentage
-    //
+    /**
+     * @return Controller moves to this service layer where it operates like
+               - Gets logged-in user
+               - Returns the total module count
+               - Returns total no. of completed module
+               - Calculate percentage
+               - Building the required DTO
+     */
     @Transactional(readOnly = true)
     public MyProgressSummary getMyProgress() {
         User user = getCurrentUser();
@@ -105,7 +120,7 @@ public class ModuleProgressService {
         double percentage = totalModules == 0 ? 0 :
                 (completedModule * 100.0) / totalModules;
 
-
+        //Returns completions summary
         ProgressSummaryResponse summary =
                 new ProgressSummaryResponse(
                         totalModules,
@@ -113,13 +128,14 @@ public class ModuleProgressService {
                         percentage
                 );
 
+        //Returns current user info
         MyProgressSummary.UserInfo userInfo =
                 new MyProgressSummary.UserInfo(
                         user.getUsername(),
                         user.getFullName()
                 );
 
-        //Module Details
+        // Returns Module Details
         List<TrainingProgressResponse> moduleDetails =
                 progressRepository.findByUser(user)
                         .stream()
@@ -140,6 +156,12 @@ public class ModuleProgressService {
 
     }
 
+    /**
+     * @return Controller moves here to the service layer
+               - Gets Logged-in user
+               - Builds the required DTO
+
+     */
     @Transactional(readOnly = true)
     public List<TrainingProgressResponse> getCompletedModules() {
 

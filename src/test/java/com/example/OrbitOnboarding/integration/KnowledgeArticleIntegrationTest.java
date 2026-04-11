@@ -8,6 +8,9 @@ import org.springframework.http.MediaType;
 
 public class KnowledgeArticleIntegrationTest extends BaseIntegrationTest{
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldRejectUnauthorizedArticleCreation() throws Exception {
 
@@ -23,12 +26,15 @@ public class KnowledgeArticleIntegrationTest extends BaseIntegrationTest{
         mockMvc.perform(post("/api/knowledge")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden());//403
     }
     //shouldCreateKnowledgeArticle
     //shouldListKnowledgeArticle
     //shouldSearchKnowledgeArticle
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldCreateKnowledgeArticle() throws Exception{
 
@@ -43,21 +49,27 @@ public class KnowledgeArticleIntegrationTest extends BaseIntegrationTest{
         mockMvc.perform(post("/api/knowledge")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden());//403
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldListKnowledgeArticle() throws Exception {
 
         mockMvc.perform(get("/api/knowledge"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden());//403
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldSearchKnowledgeArticle() throws Exception {
 
         mockMvc.perform(get("/api/knowledge/search")
                         .param("keyword", "git"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden());//403
     }
 }

@@ -35,23 +35,36 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 	compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0' //for Getter and Mapstruct to work together
-
-    //runtimeOnly Postgresql dependency removed
-
 	annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'com.h2database:h2'
+//removed H2 testImplemenntation as a safety net for running TestContainers
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation'org.mockito:mockito-core'
 	testImplementation 'org.springframework.security:spring-security-test'
     implementation'io.jsonwebtoken:jjwt-api:0.11.5'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.testcontainers:junit-jupiter:1.19.8'
-    testImplementation'org.testcontainers:postgresql:1.19.8'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.8' //Testcontainer  Dependencies
+    testImplementation'org.testcontainers:postgresql:1.19.8'     //Testcontainer Dependencies
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+tasks.named('test'){
+    useJUnitPlatform{
+        excludeTags 'integration'
+    }
+}
+
+tasks.register('integrationTest',Test){
+    description= 'Runs integration tests with TestContainers'
+    group='verification'
+
+    useJUnitPlatform{
+        includeTags'integration'
+    }
+
+    shouldRunAfter test
 }

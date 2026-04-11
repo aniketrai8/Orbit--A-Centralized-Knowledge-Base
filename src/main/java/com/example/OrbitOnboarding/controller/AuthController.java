@@ -3,7 +3,8 @@ package com.example.OrbitOnboarding.controller;
 import com.example.OrbitOnboarding.dto.request.LoginRequest;
 import com.example.OrbitOnboarding.dto.request.RegisterRequest;
 import com.example.OrbitOnboarding.dto.response.AuthResponse;
-import com.example.OrbitOnboarding.service.AuthService;
+import com.example.OrbitOnboarding.unit.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +25,24 @@ public class AuthController {
     }
 
 
+    /**
+     * @param request Makes use of @RequestBody to read through user credentials and then is sent over to the desired service layer method
+     * @return
+     */
     @PostMapping("/register")
+    @Operation(summary="Registers a new user", description = "User credentials should not be reused")
     public String register(@Valid @RequestBody RegisterRequest request) {
 
         return authService.register(request);
     }
 
 
+    /**
+     * @param request Makes use of @RequestBody to read through user credentials and then is sent over to the desired service layer method
+     * @return
+     */
     @PostMapping("/login")
+    @Operation(summary="Logins an existing user", description = "Recheck for valid credentials")
     public AuthResponse login(@Valid @RequestBody LoginRequest request) {
 
         return authService.login(request);

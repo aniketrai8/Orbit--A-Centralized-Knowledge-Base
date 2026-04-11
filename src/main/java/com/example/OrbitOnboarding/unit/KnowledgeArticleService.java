@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 import com.example.OrbitOnboarding.dto.request.KnowledgeCreateRequest;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleListResponse;

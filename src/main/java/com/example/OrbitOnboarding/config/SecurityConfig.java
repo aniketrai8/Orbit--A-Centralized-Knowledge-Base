@@ -22,6 +22,9 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+    /**
+     * @return
+     */
    //Password BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -29,6 +32,11 @@ public class SecurityConfig {
     }
 
 
+    /**
+     * @param configuration
+     * @return
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
@@ -37,6 +45,11 @@ public class SecurityConfig {
     }
 
 
+    /**
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 

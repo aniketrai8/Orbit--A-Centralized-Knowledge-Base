@@ -157,9 +157,13 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
 
     }
 
-    //shouldGetModuleById
-    //shouldUpdateTrainingModule
-    //shouldDeleteTrainingModule
-    //shouldPreventDuplicateModuleOrder
+   /*
+   Create module as ADMIN
+List modules
+Get module with progress
+Update module
+Delete module
+Prevent duplicate moduleOrder
+    */
 
 }

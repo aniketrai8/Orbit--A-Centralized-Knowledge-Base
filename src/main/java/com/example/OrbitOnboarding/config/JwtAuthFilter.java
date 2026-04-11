@@ -2,7 +2,7 @@ package com.example.OrbitOnboarding.config;
 
 import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.repository.UserRepository;
-import com.example.OrbitOnboarding.service.JwtUtil;
+import com.example.OrbitOnboarding.unit.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +17,9 @@ import java.util.List;
 import java.io.IOException;
 
 
-//Purpose - > Responsible for verification of JWT token
+/**
+ * Responsible for verification of JWT token
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -25,6 +27,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
+    /**
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,

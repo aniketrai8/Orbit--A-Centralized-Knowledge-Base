@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:orbit-test-db
     driver-class-name: org.h2.Driver
-    username: sa
+    username: an
     password:
 
   jpa:

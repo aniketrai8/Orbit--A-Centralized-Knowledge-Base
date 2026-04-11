@@ -1,7 +1,6 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
-import com.example.OrbitOnboarding.dto.response.ProgressSummaryResponse;
 import com.example.OrbitOnboarding.entity.ModuleProgress;
 import com.example.OrbitOnboarding.entity.TrainingModule;
 import com.example.OrbitOnboarding.entity.User;
@@ -10,7 +9,6 @@ import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
 import com.example.OrbitOnboarding.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

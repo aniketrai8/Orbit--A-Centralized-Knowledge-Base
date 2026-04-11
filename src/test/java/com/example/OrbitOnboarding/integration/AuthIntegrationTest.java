@@ -14,11 +14,18 @@ import java.util.UUID;
 public class AuthIntegrationTest extends BaseIntegrationTest {
 
 
+    /**
+     * @return
+     */
     private String uniqueUsername() {
         return "integration_user_" +
-                UUID.randomUUID().toString().substring(0, 8);
+                UUID.randomUUID().toString().substring(0, 8); //
     }
 
+    /**
+     * @param username
+     * @return
+     */
     private String buildRegisterRequest(String username) {
         return """
             {
@@ -30,6 +37,10 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
             """.formatted(username, username);
     }
 
+    /**
+     * @param username
+     * @return
+     */
     private String buildLoginRequest(String username) {
         return """
             {
@@ -39,6 +50,9 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
             """.formatted(username);
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldRegisterUserSuccessfully() throws Exception {
 
@@ -49,9 +63,12 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(buildRegisterRequest(username)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); //200
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldLoginAndReturnJwt() throws Exception {
 
@@ -72,6 +89,9 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.token").exists());
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldRejectInvalidCredentials() throws Exception{
         String username = uniqueUsername();
@@ -91,10 +111,13 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidLogin))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest()); //4XX
 
         }
 
+    /**
+     * @throws Exception
+     */
         @Test
     void shouldANotAllowDuplicateUsername() throws Exception{
 
@@ -112,11 +135,14 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
 
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldRejectAccessWithoutToken() throws Exception{
 
         mockMvc.perform(get("/api/training-modules"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden());//403
     }
 
     //shouldRejectInvalidCredentials

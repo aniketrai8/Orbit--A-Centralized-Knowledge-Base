@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 
 import com.example.OrbitOnboarding.dto.request.KnowledgeCreateRequest;
@@ -24,6 +24,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ *
+ */
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 public class KnowledgeArticleServiceTest {
 

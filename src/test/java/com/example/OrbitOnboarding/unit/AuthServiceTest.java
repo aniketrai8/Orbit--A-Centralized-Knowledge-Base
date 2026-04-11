@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 
 import com.example.OrbitOnboarding.dto.request.LoginRequest;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -42,6 +41,9 @@ import static org.mockito.Mockito.when;
 
     //Mocking a user registration
 
+    /**
+     * @return
+     */
     private RegisterRequest registerRequest() {
         RegisterRequest request = new RegisterRequest();
         request.setUsername("aniket");
@@ -51,6 +53,9 @@ import static org.mockito.Mockito.when;
         return request;
     }
 
+    /**
+     * @return
+     */
     private LoginRequest loginRequest() {
         LoginRequest request = new LoginRequest();
         request.setUsername("aniket");

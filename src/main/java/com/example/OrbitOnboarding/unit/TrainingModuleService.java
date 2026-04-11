@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 
 import com.example.OrbitOnboarding.dto.request.TrainingModuleRequest;
@@ -10,7 +10,6 @@ import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;

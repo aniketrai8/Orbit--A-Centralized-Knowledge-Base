@@ -5,6 +5,9 @@ import org.springframework.test.context.DynamicPropertySource;
 
 public class ContainerPropertyInitializer {
 
+    /**
+     * @param registry Injects Dynamic container value into your Spring context
+     */
     @DynamicPropertySource
     static void registerProps(DynamicPropertyRegistry registry) {
 

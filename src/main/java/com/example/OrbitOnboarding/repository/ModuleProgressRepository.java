@@ -21,10 +21,15 @@ public interface ModuleProgressRepository extends JpaRepository<ModuleProgress,L
 
     //SELECT COUNT(*)
     long countByUser(User user);
+
+    /*SELECT COUNT(*)
+    FROM module_progress mp
+    WHERE mp.user_id = 1
+    AND completed = true;
+     */
     long countByUserAndCompletedTrue(User user);
 
 
-    //long countByModule(TrainingModule module);
 
 
 

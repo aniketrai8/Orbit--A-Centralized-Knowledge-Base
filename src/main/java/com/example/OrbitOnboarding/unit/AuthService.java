@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.service;
+package com.example.OrbitOnboarding.unit;
 
 
 import com.example.OrbitOnboarding.dto.request.LoginRequest;
@@ -10,12 +10,11 @@ import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.OrbitOnboarding.entity.Role;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 
 
@@ -29,8 +28,14 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
 
-
-
+    /**
+     * @param request Controller migrates to service layer where it checks
+     *                - if username exists or not
+     *                - if the email exists or not
+     *                - Creates a new user with all required fields
+     *                - Saves it under repository
+     * @return
+     */
     @Transactional
     public String register(RegisterRequest request) {
 
@@ -39,31 +44,34 @@ public class AuthService {
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Email exists");
+            throw new BadRequestException("Email exists");
         }
 
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
+        user.setPassword(passwordEncoder.encode(request.getPassword())); //PRD states to hash the password
         user.setFullName(request.getFullName());
-        user.setRole(Role.USER);
+        user.setRole(Role.USER); //default role set as USER for first time register
         user.setCreatedAt(LocalDateTime.now());
-        //default role set as USER
 
         userRepository.save(user);
 
-        return "User registered successfully";
+           return "User registered successfully";
     }
 
 
+    /**
+     * @param request Controller navigates to service layer where it checks
+     *                - if the username and password exists within the system
+     *                - JWT generate Token
+     *                - Builds and returns DTO
+     * @return
+     */
     @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest request) {
-
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadRequestException("Invalid password");
         }

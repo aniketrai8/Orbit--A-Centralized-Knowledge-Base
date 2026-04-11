@@ -15,6 +15,9 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
     @Autowired
     TrainingModuleRepository moduleRepository;
 
+    /**
+     * @throws Exception
+     */
     @Test
     void shouldRequireAuthenticationForProgress() throws Exception {
 
@@ -33,9 +36,11 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isForbidden());
     }
 
-    //shouldMarkModuleAsCompleted
-    //shouldNotAllowDuplicateCompletion
-    //shouldCalculatePercentageCorrectly
-    //shouldReturnUserProgress
-    //shouldAllowAdminToViewAllProgress
+    /*
+    Mark module complete
+Prevent duplicate completion
+Calculate progress percentage correctly
+View own progress
+Admin views all users' progress
+     */
 }
