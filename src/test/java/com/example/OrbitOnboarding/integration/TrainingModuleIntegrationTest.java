@@ -29,10 +29,10 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        // secured endpoint → should reject without auth
+        // secured endpoint -> should reject without auth
         mockMvc.perform(post("/api/training/module")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(json)) //
                 .andExpect(status().isForbidden());
     }
 
@@ -146,7 +146,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        mockMvc.perform(post("/api/trainin/module/")
+        mockMvc.perform(post("/api/training/module/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(duplicateJson))
                 .andExpect(status().isForbidden());

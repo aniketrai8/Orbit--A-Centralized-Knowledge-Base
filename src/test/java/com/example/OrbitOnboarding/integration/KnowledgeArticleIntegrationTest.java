@@ -28,9 +28,6 @@ public class KnowledgeArticleIntegrationTest extends BaseIntegrationTest{
                         .content(json))
                 .andExpect(status().isForbidden());//403
     }
-    //shouldCreateKnowledgeArticle
-    //shouldListKnowledgeArticle
-    //shouldSearchKnowledgeArticle
 
     /**
      * @throws Exception
@@ -69,7 +66,7 @@ public class KnowledgeArticleIntegrationTest extends BaseIntegrationTest{
     void shouldSearchKnowledgeArticle() throws Exception {
 
         mockMvc.perform(get("/api/knowledge/search")
-                        .param("keyword", "git"))
+                        .param("keyword", "git")) //
                 .andExpect(status().isForbidden());//403
     }
 }
