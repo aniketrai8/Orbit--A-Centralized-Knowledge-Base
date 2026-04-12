@@ -1,11 +1,15 @@
-name: Orbit- Integration Tests
+name: Orbit Integration Tests
 
 on:
   push:
     branches: [ main ]
   pull_request:
 
-steps:
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
