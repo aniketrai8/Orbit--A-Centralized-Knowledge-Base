@@ -9,7 +9,7 @@ import java.util.List;
 public interface TrainingModuleRepository extends JpaRepository<TrainingModule,Long> {
 
     //SELECT * FROM training_module ORDER BY ASC;
-    List<TrainingModule> findAllByOrderByModuleOrderAsc();
+    List<TrainingModule> findAllByOrderByModuleAsc();
 
     /**
      * @return helps count total modules
