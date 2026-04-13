@@ -30,7 +30,7 @@ This project is built as part of a capstone onboarding platform simulating real 
 
 | Layer      | Technology                  |
 | ---------- | --------------------------- |
-| Backend    | Java 17                     |
+| Backend    | Java 21                    |
 | Framework  | Spring Boot                 |
 | Security   | Spring Security + JWT       |
 | Database   | PostgreSQL                  |
@@ -78,7 +78,7 @@ cd Orbit--A-Centralized-Knowledge-Base
 
 Make sure you have:
 
-* Java 17+
+* Java 21
 * PostgreSQL
 * Gradle 
 * IntelliJ IDEA
