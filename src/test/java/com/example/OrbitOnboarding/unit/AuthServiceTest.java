@@ -8,6 +8,8 @@ import com.example.OrbitOnboarding.entity.Role;
 import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.exception.BadRequestException;
 import com.example.OrbitOnboarding.repository.UserRepository;
+import com.example.OrbitOnboarding.service.AuthService;
+import com.example.OrbitOnboarding.service.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,6 +47,7 @@ import static org.mockito.Mockito.when;
      * @return
      */
     private RegisterRequest registerRequest() {
+
         RegisterRequest request = new RegisterRequest();
         request.setUsername("aniket");
         request.setEmail("aniket@molx.com");
@@ -52,47 +55,35 @@ import static org.mockito.Mockito.when;
         request.setFullName("Aniket Rai");
         return request;
     }
-
     /**
      * @return
      */
     private LoginRequest loginRequest() {
+
         LoginRequest request = new LoginRequest();
         request.setUsername("aniket");
         request.setPassword("Aniket101");
         return request;
     }
 
-
-
-
-
-//Tets if the User can Login successfully
     @Test
     void shouldRegisterUserSuccessfully() {
 
         RegisterRequest request = registerRequest();
-
         when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encoded");
-
         String result = authService.register(request);
-
         assertEquals("User registered successfully", result);
         verify(userRepository).save(any(User.class));
     }
 
-    //Tests if Username Exists
     @Test
     void shouldThrowUsernameIfExist(){
 
         RegisterRequest request = registerRequest();
-
-
         when(userRepository.existsByUsername("aniket"))
                 .thenReturn(true);
-
         assertThrows(BadRequestException.class,
                 () -> authService.register(request)); //
     }
@@ -102,42 +93,31 @@ import static org.mockito.Mockito.when;
     void shouldLoginSuccessfully() {
 
         LoginRequest request = loginRequest();
-
         User user = new User();
         user.setUsername("aniket");
         user.setPassword("encoded");
         user.setRole(Role.USER);
-
         when(userRepository.findByUsername(anyString()))
                 .thenReturn(Optional.of(user));
-
         when(passwordEncoder.matches(anyString(), anyString()))
                 .thenReturn(true);
-
         when(jwtUtil.generateToken(anyString(), anyString()))
                 .thenReturn("jwt-token");
-
         AuthResponse response = authService.login(request);
-
         assertEquals("jwt-token", response.getToken());
     }
 
-   //Wrong password rejection
     @Test
     void shouldThrowIfPasswordInvalid() {
 
         LoginRequest request = new LoginRequest();
-
         User user = new User();
         user.setUsername("aniket");
         user.setPassword("Aniket101");
-
         when(userRepository.findByUsername(anyString()))
                 .thenReturn(Optional.of(user));
-
         when(passwordEncoder.matches(any(), any()))
                 .thenReturn(false);
-
         assertThrows(RuntimeException.class,
                 () -> authService.login(request));
     }

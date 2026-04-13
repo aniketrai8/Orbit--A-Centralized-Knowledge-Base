@@ -19,9 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-
     private final JwtAuthFilter jwtAuthFilter;
-
     /**
      * @return
      */
@@ -31,7 +29,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     /**
      * @param configuration
      * @return
@@ -40,10 +37,8 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
-
         return configuration.getAuthenticationManager();
     }
-
 
     /**
      * @param http
@@ -59,7 +54,6 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( "/v3/api-docs/**",
                                 "/v3/api-docs",
@@ -74,10 +68,8 @@ public class SecurityConfig {
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .addFilterBefore(jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }

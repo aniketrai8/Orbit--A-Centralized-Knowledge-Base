@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.unit;
+package com.example.OrbitOnboarding.service;
 
 import com.example.OrbitOnboarding.dto.response.ModuleCompletionResponse;
 import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
@@ -32,26 +32,18 @@ public class ModuleProgressService {
     private final ModuleProgressRepository progressRepository;
     private final UserRepository userRepository;
 
-
-
-
     private User getCurrentUser() {
+
         String username = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
-
         System.out.println("SPRING SECURITY USERNAME = " + username);
-
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not Found"));
-
         System.out.println("DB USER FOUND ID = " + user.getId());
-
         return user;
 
     }
-
-
     /**
      * @param moduleId Controller moves to this service layer where it operates like
      *                 - logged-in user
@@ -70,11 +62,7 @@ public class ModuleProgressService {
 
         User user = getCurrentUser();
         TrainingModule module = moduleRepository.findById(moduleId)
-                .orElseThrow(() -> new ResourceNotFoundException("Module Not Found"));
-
-
-        //PRD requires a single module to be marked completed on
-
+                .orElseThrow(() -> new ResourceNotFoundException("Module Not Found")); //PRD requires a single module to be marked completed once
         progressRepository.findByUserAndModule(user, module).ifPresent(p -> {
             throw new DuplicateResource("Module Already completed"); //check once before finalizing
         });
@@ -91,7 +79,6 @@ public class ModuleProgressService {
         long totalModules = moduleRepository.count();
         long completedModules = progressRepository.countByUserAndCompletedTrue(user);
         double percentage = ((double) completedModules / totalModules) * 100;
-
         return ModuleCompletionResponse.builder()
                 .message("Module marked as complete")
                 .moduleId(module.getId())
@@ -101,7 +88,6 @@ public class ModuleProgressService {
                 .build();
 
     }
-
     /**
      * @return Controller moves to this service layer where it operates like
                - Gets logged-in user
@@ -112,30 +98,23 @@ public class ModuleProgressService {
      */
     @Transactional(readOnly = true)
     public MyProgressSummary getMyProgress() {
+
         User user = getCurrentUser();
-
-
         long totalModules = moduleRepository.count();
         long completedModule = progressRepository.countByUserAndCompletedTrue(user);
         double percentage = totalModules == 0 ? 0 :
                 (completedModule * 100.0) / totalModules;
-
-        //Returns completions summary
         ProgressSummaryResponse summary =
                 new ProgressSummaryResponse(
                         totalModules,
                         completedModule,
                         percentage
                 );
-
-        //Returns current user info
         MyProgressSummary.UserInfo userInfo =
                 new MyProgressSummary.UserInfo(
                         user.getUsername(),
                         user.getFullName()
                 );
-
-        // Returns Module Details
         List<TrainingProgressResponse> moduleDetails =
                 progressRepository.findByUser(user)
                         .stream()
@@ -146,7 +125,6 @@ public class ModuleProgressService {
                                 .completedAt(progress.getCompletedAt())
                                 .build())
                         .toList();
-
         return MyProgressSummary.builder()
                 .user(userInfo)
                 .summary(summary)
@@ -155,7 +133,6 @@ public class ModuleProgressService {
 
 
     }
-
     /**
      * @return Controller moves here to the service layer
                - Gets Logged-in user
@@ -166,7 +143,6 @@ public class ModuleProgressService {
     public List<TrainingProgressResponse> getCompletedModules() {
 
         User user = getCurrentUser();
-
         return progressRepository.findByUser(user)
                 .stream()
                 .map(progress -> TrainingProgressResponse.builder()

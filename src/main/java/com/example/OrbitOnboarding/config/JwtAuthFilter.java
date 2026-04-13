@@ -2,7 +2,7 @@ package com.example.OrbitOnboarding.config;
 
 import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.repository.UserRepository;
-import com.example.OrbitOnboarding.unit.JwtUtil;
+import com.example.OrbitOnboarding.service.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,6 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
@@ -43,45 +42,35 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-
         if (path.startsWith("/v3/api-docs") ||
                 path.startsWith("/swagger-ui") ||
                 path.startsWith("/swagger-ui.html")) {
-
             filterChain.doFilter(request, response);
             return;
         }
 
         String header = request.getHeader("Authorization");
-
         if (header != null && header.startsWith("Bearer ")) {
-
             String token = header.substring(7);
-
             if (jwtUtil.validateToken(token)) {
-
                 String username = jwtUtil.extractUsername(token);
                 String role = jwtUtil.extractRole(token); // make sure this exists
-
                 User user = userRepository
                         .findByUsername(username)
                         .orElse(null);
 
                 if (user != null) {
-
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(
                                     user.getUsername(),
                                     null,
                                     List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
                             );
-
                     SecurityContextHolder.getContext()
                             .setAuthentication(authToken);
                 }
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

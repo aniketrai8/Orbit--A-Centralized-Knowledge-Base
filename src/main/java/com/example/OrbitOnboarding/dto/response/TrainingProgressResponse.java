@@ -16,8 +16,4 @@ public class TrainingProgressResponse {
     private Boolean completed;
     private LocalDateTime completedAt;
 
-
-
-
-    //check for correct field validation
 }

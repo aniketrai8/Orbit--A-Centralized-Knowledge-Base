@@ -117,14 +117,4 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isForbidden());
     }
 
-
-
-
-    /*
-    Mark module complete
-Prevent duplicate completion
-Calculate progress percentage correctly
-View own progress
-Admin views all users' progress
-     */
 }

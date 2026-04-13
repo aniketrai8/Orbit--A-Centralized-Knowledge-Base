@@ -8,6 +8,7 @@ import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.mapper.KnowledgeArticleMapper;
 import com.example.OrbitOnboarding.repository.KnowledgeArticleRepository;
 import com.example.OrbitOnboarding.repository.UserRepository;
+import com.example.OrbitOnboarding.service.KnowledgeArticleService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

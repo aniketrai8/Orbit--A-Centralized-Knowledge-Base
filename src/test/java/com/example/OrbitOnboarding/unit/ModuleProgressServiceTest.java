@@ -7,6 +7,7 @@ import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.repository.ModuleProgressRepository;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
 import com.example.OrbitOnboarding.repository.UserRepository;
+import com.example.OrbitOnboarding.service.ModuleProgressService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- *
+ * Aims to provide a common annotation for all IT tests
  */
 @Tag("integration")
 @SpringBootTest

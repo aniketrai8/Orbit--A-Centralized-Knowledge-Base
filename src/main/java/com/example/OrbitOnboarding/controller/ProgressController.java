@@ -3,7 +3,7 @@ package com.example.OrbitOnboarding.controller;
 import com.example.OrbitOnboarding.dto.response.ModuleCompletionResponse;
 import com.example.OrbitOnboarding.dto.response.MyProgressSummary;
 import com.example.OrbitOnboarding.dto.response.TrainingProgressResponse;
-import com.example.OrbitOnboarding.unit.ModuleProgressService;
+import com.example.OrbitOnboarding.service.ModuleProgressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -47,9 +47,9 @@ public class ProgressController {
     @GetMapping("/completed")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Returns information on completed Modules",description = "Only for ADMIN")
-    public List<TrainingProgressResponse> getCompletedModules() {
+    public ResponseEntity<List<TrainingProgressResponse>> getCompletedModules() {
 
-        return moduleProgressService.getCompletedModules(); //
+        return ResponseEntity.ok(moduleProgressService.getCompletedModules()); //
     }
 
 

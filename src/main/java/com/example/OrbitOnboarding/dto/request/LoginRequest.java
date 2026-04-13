@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class LoginRequest {
 
-
  @NotBlank(message="Username should not be empty")
  @Size(min=3,max=50)
     private String username;
+
  @NotBlank(message="Password should not be empty")
  @Size(min=8,max=16)
     private String password;

@@ -17,7 +17,6 @@ public class MyProgressSummary {
     private ProgressSummaryResponse summary;
     private List<TrainingProgressResponse> moduleDetails;
 
-
     /**
      * Nested class to provide a detailed Json response
      */

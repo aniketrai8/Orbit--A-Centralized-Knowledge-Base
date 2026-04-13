@@ -11,8 +11,6 @@ import lombok.Setter;
 
 public class TrainingModuleRequest {
 
-
-
     @NotNull
     @Size(min=5,max=200)
     private String title;

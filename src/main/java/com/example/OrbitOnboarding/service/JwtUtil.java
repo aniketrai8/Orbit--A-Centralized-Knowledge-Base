@@ -1,4 +1,4 @@
-package com.example.OrbitOnboarding.unit;
+package com.example.OrbitOnboarding.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

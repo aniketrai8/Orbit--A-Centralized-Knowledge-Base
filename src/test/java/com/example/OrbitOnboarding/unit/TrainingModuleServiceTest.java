@@ -7,6 +7,7 @@ import com.example.OrbitOnboarding.entity.TrainingModule;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.mapper.TrainingModuleMapper;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
+import com.example.OrbitOnboarding.service.TrainingModuleService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

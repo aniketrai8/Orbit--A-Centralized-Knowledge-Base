@@ -2,24 +2,23 @@ package com.example.OrbitOnboarding.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.util.UUID;
+
+
 
 public class AuthIntegrationTest extends BaseIntegrationTest {
 
 
     /**
-     * @return
+     * @return UUID helps to avoid a duplicate user while running integrating tests
      */
     private String uniqueUsername() {
         return "integration_user_" +
-                UUID.randomUUID().toString().substring(0, 8); //
+                UUID.randomUUID().toString().substring(0, 8);
     }
 
     /**
@@ -145,8 +144,5 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isForbidden());//403
     }
 
-    //shouldRejectInvalidCredentials
-    //shouldNotAllowDuplicateUsername
-    //shouldRejectAccessWithoutToken
 
 }

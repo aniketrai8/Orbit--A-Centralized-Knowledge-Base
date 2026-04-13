@@ -2,7 +2,7 @@ package com.example.OrbitOnboarding.controller;
 
 import com.example.OrbitOnboarding.dto.request.TrainingModuleRequest;
 import com.example.OrbitOnboarding.dto.response.TrainingModuleResponse;
-import com.example.OrbitOnboarding.unit.TrainingModuleService;
+import com.example.OrbitOnboarding.service.TrainingModuleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

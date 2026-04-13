@@ -35,15 +35,11 @@ public class ModuleProgress {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="trainingModule_id",nullable=false)
+
     private TrainingModule module;
-
     private boolean completed = false;  //default value False
-
     private LocalDateTime completedAt;
-
     private LocalDateTime createdAt;
-
-
 
 @Builder
     public ModuleProgress(User user,TrainingModule module,boolean completed,LocalDateTime createdAt,LocalDateTime completedAt){

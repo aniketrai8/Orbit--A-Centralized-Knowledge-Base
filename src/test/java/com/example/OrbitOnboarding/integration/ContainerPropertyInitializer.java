@@ -3,10 +3,13 @@ package com.example.OrbitOnboarding.integration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
+/**
+ *
+ */
 public class ContainerPropertyInitializer {
 
     /**
-     * @param registry Injects Dynamic container value into your Spring context
+     * @param registry Injects Dynamic container value into your Spring context at runtime
      */
     @DynamicPropertySource
     static void registerProps(DynamicPropertyRegistry registry) {

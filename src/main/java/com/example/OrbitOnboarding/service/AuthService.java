@@ -1,9 +1,10 @@
-package com.example.OrbitOnboarding.unit;
+package com.example.OrbitOnboarding.service;
 
 
 import com.example.OrbitOnboarding.dto.request.LoginRequest;
 import com.example.OrbitOnboarding.dto.request.RegisterRequest;
 import com.example.OrbitOnboarding.dto.response.AuthResponse;
+import com.example.OrbitOnboarding.dto.response.RegisterResponse;
 import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.exception.BadRequestException;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import com.example.OrbitOnboarding.entity.Role;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+
 
 
 @Getter
@@ -37,7 +39,7 @@ public class AuthService {
      * @return
      */
     @Transactional
-    public String register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new BadRequestException("Username already exists");
@@ -46,6 +48,7 @@ public class AuthService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new BadRequestException("Email exists");
         }
+
 
         User user = new User();
         user.setUsername(request.getUsername());
@@ -56,8 +59,11 @@ public class AuthService {
         user.setCreatedAt(LocalDateTime.now());
 
         userRepository.save(user);
-
-           return "User registered successfully";
+           return RegisterResponse.builder()
+                   .message("User Registered Successfully")
+                   .userId(user.getId())
+                   .username(user.getUsername())
+                   .build();
     }
 
 

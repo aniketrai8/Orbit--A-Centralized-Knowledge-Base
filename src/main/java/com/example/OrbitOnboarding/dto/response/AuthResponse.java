@@ -17,7 +17,6 @@ public class AuthResponse {
     }
     public String getUsername(){
         return username;
-
     }
 
     public String getRole(){

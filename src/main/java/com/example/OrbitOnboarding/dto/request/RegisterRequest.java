@@ -11,22 +11,18 @@ import lombok.Setter;
 @Setter
 public class RegisterRequest {
 
-    @NotBlank
+    @NotBlank(message="Username cannot be blank")
     private String username;
 
     @NotBlank
     @Size(min=8)
     private String password;
 
-    @NotBlank
+    @NotBlank(message="Email cannot be blank")
     @Pattern(regexp=".*@molex\\.com$")
     private String email;
 
-    @NotBlank
+    @NotBlank(message="Please enter full name")
     private String fullName;
-
-    //why things like role is not asked even though at registration point all information should be collected
-
-
 
 }

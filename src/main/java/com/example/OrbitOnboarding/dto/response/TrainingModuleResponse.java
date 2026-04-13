@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Setter
 public class TrainingModuleResponse {
 
-
-
     private Long id;
     private String title;
     private String description;

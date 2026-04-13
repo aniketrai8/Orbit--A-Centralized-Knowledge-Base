@@ -22,16 +22,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message="Username cannot be blank")
     @Size(min=3,max=50)
     @Column(unique=true,nullable=false)
     private String username;//3-50 characters
 
-
-    //.*@molex\\.com$
-    // flags = Pattern.Flag.CASE_INSENSITIVE,
-    // message="Email should end with @molex.com address"
-    @NotBlank(message="Email cannot be blank")
     @Email
     @Pattern(
        regexp=".*@molex\\.com$"
@@ -39,23 +33,16 @@ public class User {
     @Column(unique=true,nullable=false)//@molex.com
     private String email;//Unique email password
 
-
     @NotBlank
     @Column(nullable=false)
     private String  password;//Bcrypted //incommpatible tyoes while using passwordEncoder
 
-
-    @NotBlank(message="Please enter full name")
     @Size(min=2,max=100)
     private String fullName; //2-100 characters
-
 
     @OneToMany(mappedBy = "createdBy")
     private List<KnowledgeArticle> articles;
 
-
-    //role(ADMIN,USER)
-    //createdAt
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
