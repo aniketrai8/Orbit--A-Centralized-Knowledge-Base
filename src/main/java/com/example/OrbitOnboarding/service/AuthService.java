@@ -53,17 +53,19 @@ public class AuthService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); //PRD states to hash the password
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullName(request.getFullName());
-        user.setRole(Role.USER); //default role set as USER for first time register
+        user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
 
-        userRepository.save(user);
-           return RegisterResponse.builder()
-                   .message("User Registered Successfully")
-                   .userId(user.getId())
-                   .username(user.getUsername())
-                   .build();
+        User savedUser = userRepository.save(user);
+
+        return RegisterResponse.builder()
+                .message("User Registered Successfully")
+                .userId(savedUser.getId())
+                .username(savedUser.getUsername())
+                .build();
+
     }
 
 

@@ -18,6 +18,7 @@ public class RegisterRequest {
     @Size(min=8)
     private String password;
 
+
     @NotBlank(message="Email cannot be blank")
     @Pattern(regexp=".*@molex\\.com$")
     private String email;

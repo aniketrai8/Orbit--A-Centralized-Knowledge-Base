@@ -4,6 +4,7 @@ package com.example.OrbitOnboarding.unit;
 import com.example.OrbitOnboarding.dto.request.LoginRequest;
 import com.example.OrbitOnboarding.dto.request.RegisterRequest;
 import com.example.OrbitOnboarding.dto.response.AuthResponse;
+import com.example.OrbitOnboarding.dto.response.RegisterResponse;
 import com.example.OrbitOnboarding.entity.Role;
 import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.exception.BadRequestException;
@@ -70,11 +71,23 @@ import static org.mockito.Mockito.when;
     void shouldRegisterUserSuccessfully() {
 
         RegisterRequest request = registerRequest();
+
         when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encoded");
-        String result = authService.register(request);
-        assertEquals("User registered successfully", result);
+
+        User savedUser = new User();
+        savedUser.setId(1L);
+        savedUser.setUsername("aniket");
+
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
+
+        RegisterResponse result = authService.register(request);
+
+        assertEquals("User Registered Successfully", result.getMessage());
+        assertEquals("aniket", result.getUsername());
+        assertEquals(1L, result.getUserId());
+
         verify(userRepository).save(any(User.class));
     }
 
