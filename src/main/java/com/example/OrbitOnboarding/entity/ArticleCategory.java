@@ -1,7 +1,9 @@
 package com.example.OrbitOnboarding.entity;
 
 
-//enum is a better alternative to text box type faster search and less chance of Typos
+/**
+ * Gives a range of acceptable ArticleCategory as title;
+ */
 public enum ArticleCategory {
 
     GIT_WORKFLOW,
