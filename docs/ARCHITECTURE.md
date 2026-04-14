@@ -39,7 +39,7 @@
 
 * Request arrives with `Authorization: Bearer <token>` header
 * `JwtAuthenticationFilter` intercepts the request before controller execution
-* Filter extracts and validates JWT using `JwtService`
+* Filter extracts and validates JWT using `JwtUtil`
 * If valid, authenticated user details are stored in Spring Security Context
 * Spring Security checks endpoint authorization via `@PreAuthorize`
 * Controller executes if authorized, else returns `401 Unauthorized` / `403 Forbidden`
