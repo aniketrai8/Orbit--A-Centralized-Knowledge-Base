@@ -8,58 +8,62 @@ User ──< TrainingModule (createdBy)
 ```
 
 ---
-
-# Tables
-
 ## users
 
-| Column     | Type      | Constraints        | Notes                         |
-| ---------- | --------- | ------------------ | ----------------------------- |
-| id         | BIGINT    | PK, AUTO_INCREMENT | Primary key                   |
-| username   | VARCHAR   | UNIQUE, NOT NULL   | Used for login/authentication |
-| email      | VARCHAR   | UNIQUE, NOT NULL   | User email                    |
-| password   | VARCHAR   | NOT NULL           | BCrypt hashed password        |
-| full_name  | VARCHAR   | NOT NULL           | User display name             |
-| role       | VARCHAR   | NOT NULL           | USER / ADMIN enum             |
-| created_at | TIMESTAMP | NOT NULL           | Registration timestamp        |
+| Column     | Type         | Constraints             | Notes                              |
+| ---------- | ------------ | ----------------------- | ---------------------------------- |
+| id         | BIGINT       | PK, AUTO_INCREMENT      | Primary key                        |
+| username   | VARCHAR(50)  | UNIQUE, NOT NULL        | 3–50 chars, used for login         |
+| email      | VARCHAR(255) | UNIQUE, NOT NULL        | Must end with `@molex.com`         |
+| password   | VARCHAR(255) | NOT NULL                | BCrypt hashed password             |
+| full_name  | VARCHAR(100) | NULLABLE                | 2–100 chars display name           |
+| role       | VARCHAR      | NOT NULL                | Stored as enum string (USER/ADMIN) |
+| created_at | TIMESTAMP    | NOT NULL, NOT UPDATABLE | Registration timestamp             |
 
 ---
-
 ## training_module
 
-| Column         | Type    | Constraints        | Notes                     |
-| -------------- | ------- | ------------------ | ------------------------- |
-| id             | BIGINT  | PK, AUTO_INCREMENT | Primary key               |
-| title          | VARCHAR | NOT NULL           | Module title              |
-| description    | TEXT    | NOT NULL           | Short module summary      |
-| content        | TEXT    | NOT NULL           | Full module content       |
-| module_order   | INT     | UNIQUE, NOT NULL   | Defines learning sequence |
-| estimated_hour | INT     | NOT NULL           | Estimated completion time |
-| created_by_id  | BIGINT  | FK → users(id)     | Admin who created module  |
+| Column         | Type         | Constraints        | Notes                          |
+| -------------- | ------------ | ------------------ | ------------------------------ |
+| id             | BIGINT       | PK, AUTO_INCREMENT | Primary key                    |
+| title          | VARCHAR(200) | NOT NULL           | 5–200 chars                    |
+| description    | VARCHAR(500) | NOT NULL           | Short module summary           |
+| content        | TEXT         | NOT NULL           | Full module content            |
+| module_order   | INT          | NOT NULL           | Defines learning sequence      |
+| estimated_hour | INT          | NOT NULL           | Max 40 hours, must be positive |
+| created_by     | BIGINT       | FK → users(id)     | Admin who created module       |
+| created_at     | TIMESTAMP    | NULLABLE           | Auto-set on insert             |
+| updated_at     | TIMESTAMP    | NULLABLE           | Updated on modification        |
+
 
 ---
 
 ## knowledge_articles
+| Column     | Type         | Constraints        | Notes                       |
+| ---------- | ------------ | ------------------ | --------------------------- |
+| id         | BIGINT       | PK, AUTO_INCREMENT | Primary key                 |
+| title      | VARCHAR(200) | NOT NULL           | 5–200 chars                 |
+| content    | TEXT         | NULLABLE           | 20–1000 chars               |
+| category   | VARCHAR      | NOT NULL           | Enum-based article category |
+| created_by | BIGINT       | FK → users(id)     | Admin who created article   |
+| created_at | TIMESTAMP    | NULLABLE           | Auto-set on insert          |
+| updated_at | TIMESTAMP    | NULLABLE           | Updated on modification     |
 
-| Column        | Type    | Constraints        | Notes                     |
-| ------------- | ------- | ------------------ | ------------------------- |
-| id            | BIGINT  | PK, AUTO_INCREMENT | Primary key               |
-| title         | VARCHAR | NOT NULL           | Article title             |
-| content       | TEXT    | NOT NULL           | Article body/content      |
-| category      | VARCHAR | NOT NULL           | Enum-based category       |
-| created_by_id | BIGINT  | FK → users(id)     | Admin who created article |
 
 ---
 
 ## module_progress
 
-| Column       | Type      | Constraints                        | Notes                     |
-| ------------ | --------- | ---------------------------------- | ------------------------- |
-| id           | BIGINT    | PK, AUTO_INCREMENT                 | Primary key               |
-| user_id      | BIGINT    | FK → users(id), NOT NULL           | User who completed module |
-| module_id    | BIGINT    | FK → training_module(id), NOT NULL | Completed training module |
-| completed    | BOOLEAN   | NOT NULL                           | Completion flag           |
-| completed_at | TIMESTAMP | NULLABLE                           | Completion timestamp      |
+| Column     | Type         | Constraints        | Notes                       |
+| ---------- | ------------ | ------------------ | --------------------------- |
+| id         | BIGINT       | PK, AUTO_INCREMENT | Primary key                 |
+| title      | VARCHAR(200) | NOT NULL           | 5–200 chars                 |
+| content    | TEXT         | NULLABLE           | 20–1000 chars               |
+| category   | VARCHAR      | NOT NULL           | Enum-based article category |
+| created_by | BIGINT       | FK → users(id)     | Admin who created article   |
+| created_at | TIMESTAMP    | NULLABLE           | Auto-set on insert          |
+| updated_at | TIMESTAMP    | NULLABLE           | Updated on modification     |
+
 
 ---
 

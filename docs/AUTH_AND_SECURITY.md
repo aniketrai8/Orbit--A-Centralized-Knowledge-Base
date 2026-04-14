@@ -25,7 +25,7 @@
 | ----- | ------------- | ------------------------------------------------------ |
 | sub   | aniket_rai    | Stores authenticated username / subject                |
 | role  | USER / ADMIN  | Used for role-based authorization checks               |
-| exp   | 1718086400    | Expiration timestamp after which token becomes invalid |
+| exp   | 86400000   | 24hours timestamp after which token becomes invalid |
 
 **Token expiry duration:** 24 hours
 
