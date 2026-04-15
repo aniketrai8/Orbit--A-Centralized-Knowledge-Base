@@ -18,8 +18,7 @@ User ──< TrainingModule (createdBy)
 | password   | VARCHAR(255) | NOT NULL                | BCrypt hashed password             |
 | full_name  | VARCHAR(100) | NULLABLE                | 2–100 chars display name           |
 | role       | VARCHAR      | NOT NULL                | Stored as enum string (USER/ADMIN) |
-| created_at | TIMESTAMP    | NOT NULL, NOT UPDATABLE | Registration timestamp             |
-
+| created_at | TIMESTAMP    | NOT NULL, NOT UPDATABLE | Registration timestamp             | 
 ---
 ## training_module
 
@@ -33,8 +32,7 @@ User ──< TrainingModule (createdBy)
 | estimated_hour | INT          | NOT NULL           | Max 40 hours, must be positive |
 | created_by     | BIGINT       | FK → users(id)     | Admin who created module       |
 | created_at     | TIMESTAMP    | NULLABLE           | Auto-set on insert             |
-| updated_at     | TIMESTAMP    | NULLABLE           | Updated on modification        |
-
+| updated_at     | TIMESTAMP    | NULLABLE           | Updated on modification        | 
 
 ---
 
@@ -47,8 +45,7 @@ User ──< TrainingModule (createdBy)
 | category   | VARCHAR      | NOT NULL           | Enum-based article category |
 | created_by | BIGINT       | FK → users(id)     | Admin who created article   |
 | created_at | TIMESTAMP    | NULLABLE           | Auto-set on insert          |
-| updated_at | TIMESTAMP    | NULLABLE           | Updated on modification     |
-
+| updated_at | TIMESTAMP    | NULLABLE           | Updated on modification     | 
 
 ---
 
