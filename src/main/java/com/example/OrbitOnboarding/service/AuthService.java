@@ -28,8 +28,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-
-
     /**
      * @param request Controller migrates to service layer where it checks
      *                - if username exists or not
@@ -55,7 +53,7 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullName(request.getFullName());
-        user.setRole(Role.USER);
+        user.setRole(request.getRole());
         user.setCreatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);

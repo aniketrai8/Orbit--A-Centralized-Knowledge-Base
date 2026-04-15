@@ -15,7 +15,7 @@ createdAt: Timestamp
  */
 
 @Entity
-@Table(name="module_progress",uniqueConstraints={@UniqueConstraint(columnNames={"user_id","trainingModule_id"})
+@Table(name="module_progress",uniqueConstraints={@UniqueConstraint(columnNames={"user_id","training_module_id"})
    }
 )
 @Getter
@@ -34,7 +34,7 @@ public class ModuleProgress {
     private User user;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="trainingModule_id",nullable=false)
+    @JoinColumn(name="training_module_id",nullable=false)
 
     private TrainingModule module;
     private boolean completed = false;  //default value False

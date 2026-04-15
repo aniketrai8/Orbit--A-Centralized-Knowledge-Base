@@ -1,11 +1,13 @@
 package com.example.OrbitOnboarding.controller;
 
 import com.example.OrbitOnboarding.dto.request.KnowledgeCreateRequest;
+import com.example.OrbitOnboarding.dto.response.KnowledgeArticleDeleteResponse;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleListResponse;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleResponse;
 import com.example.OrbitOnboarding.service.KnowledgeArticleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,7 +51,7 @@ public class KnowledgeArticleController {
     @GetMapping("/search")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @Operation(summary = "Returns Articles that matches the suggested keyword",description = "")
-    public ResponseEntity<List<KnowledgeArticleListResponse>> search(@RequestParam String keyword) {
+    public ResponseEntity<List<KnowledgeArticleListResponse>> search(@Valid @RequestParam String keyword) {
         return ResponseEntity.ok(service.search(keyword));
     }
 
@@ -60,7 +62,7 @@ public class KnowledgeArticleController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Creates a new Knowledge Article",description = "Only for ADMIN")
-    public ResponseEntity<KnowledgeArticleResponse> create(@RequestBody KnowledgeCreateRequest request) {
+    public ResponseEntity<KnowledgeArticleResponse> create(@Valid @RequestBody KnowledgeCreateRequest request) {
         return ResponseEntity.ok(service.create(request));
     }
 
@@ -72,7 +74,7 @@ public class KnowledgeArticleController {
     @PutMapping("/{id}")
     @Operation(summary = "Responsible for Updating an Article content",description = "Only for ADMIN")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<KnowledgeArticleResponse> update(@PathVariable Long id, @RequestBody KnowledgeCreateRequest request) {
+    public ResponseEntity<KnowledgeArticleResponse> update(@Valid @PathVariable Long id, @RequestBody KnowledgeCreateRequest request) {
         return ResponseEntity.ok(service.update(id, request));
     }
 
@@ -83,8 +85,7 @@ public class KnowledgeArticleController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletes an existing article",description = "Only for ADMIN")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        service.delete(id);
-         return ResponseEntity.ok("Article Deletion was a Success");
+    public ResponseEntity<KnowledgeArticleDeleteResponse> delete(@PathVariable Long id) {
+         return ResponseEntity.ok(service.delete(id));
     }
 }

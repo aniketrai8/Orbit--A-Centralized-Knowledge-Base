@@ -32,16 +32,17 @@ import static org.mockito.Mockito.when;
 public class KnowledgeArticleServiceTest {
 
     @Mock
-    private KnowledgeArticleRepository repository;
+    private KnowledgeArticleRepository knowledgeRepository;
 
     @Mock
-    private KnowledgeArticleMapper mapper;
+    private KnowledgeArticleMapper knowledgeMapper;
 
     @Mock
     private UserRepository userRepository;
 
+
     @InjectMocks
-    private KnowledgeArticleService service;
+    private KnowledgeArticleService knowledgeService;
 
     private User user;
 
@@ -69,14 +70,14 @@ public class KnowledgeArticleServiceTest {
         KnowledgeArticle entity = new KnowledgeArticle();
         KnowledgeArticleResponse response = new KnowledgeArticleResponse();
 
-        when(mapper.toEntity(request)).thenReturn(entity);
-        when(repository.save(entity)).thenReturn(entity);
-        when(mapper.toResponse(entity)).thenReturn(response);
+        when(knowledgeMapper.toEntity(request)).thenReturn(entity);
+        when(knowledgeRepository.save(entity)).thenReturn(entity);
+        when(knowledgeMapper.toResponse(entity)).thenReturn(response);
 
-        KnowledgeArticleResponse result = service.create(request);
+        KnowledgeArticleResponse result = knowledgeService.create(request);
 
         assertEquals(response, result);
-        verify(repository).save(entity);
+        verify(knowledgeRepository).save(entity);
     }
 
 

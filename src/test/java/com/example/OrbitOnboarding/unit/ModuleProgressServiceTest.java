@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
     private UserRepository userRepository;
 
 @InjectMocks
-    private ModuleProgressService service;
+    private ModuleProgressService progressService;
 
 private User user;
  //mocking locked-in User
@@ -64,7 +64,7 @@ private User user;
     when(progressRepository.countByUserAndCompletedTrue(user)).thenReturn(4L);
 
 
-    MyProgressSummary response = service.getMyProgress();
+    MyProgressSummary response = progressService.getMyProgress();
 
     assertEquals(10, response.getSummary().getTotalModules());
     assertEquals(4, response.getSummary().getCompletedModules());
@@ -85,7 +85,7 @@ private User user;
     when(progressRepository.findByUserAndModule(user,module)).thenReturn(Optional.empty());
 
 
-    service.markModuleComplete(1L);
+    progressService.markModuleComplete(1L);
     verify(progressRepository,times(1)).save(any(ModuleProgress.class)); //
 
 }
@@ -102,7 +102,7 @@ private User user;
     when(progressRepository.findByUserAndModule(user,module))
             .thenReturn(Optional.of(new ModuleProgress()));
 
-    assertThrows(RuntimeException.class, ()-> service.markModuleComplete(1L));
+    assertThrows(RuntimeException.class, ()-> progressService.markModuleComplete(1L));
 
     }
 

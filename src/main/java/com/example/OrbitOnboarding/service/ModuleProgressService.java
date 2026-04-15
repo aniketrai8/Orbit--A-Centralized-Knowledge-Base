@@ -102,8 +102,12 @@ public class ModuleProgressService {
         User user = getCurrentUser();
         long totalModules = moduleRepository.count();
         long completedModule = progressRepository.countByUserAndCompletedTrue(user);
-        double percentage = totalModules == 0 ? 0 :
-                (completedModule * 100.0) / totalModules;
+        double percentage;
+        try {
+            percentage = (completedModule * 100.0) / totalModules;
+        } catch (ArithmeticException ex) {
+            percentage = 0;
+        }
         ProgressSummaryResponse summary =
                 new ProgressSummaryResponse(
                         totalModules,

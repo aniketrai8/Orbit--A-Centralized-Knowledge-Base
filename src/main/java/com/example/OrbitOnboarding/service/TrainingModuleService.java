@@ -2,71 +2,93 @@ package com.example.OrbitOnboarding.service;
 
 
 import com.example.OrbitOnboarding.dto.request.TrainingModuleRequest;
+import com.example.OrbitOnboarding.dto.response.TrainingModuleDelete;
 import com.example.OrbitOnboarding.dto.response.TrainingModuleResponse;
 import com.example.OrbitOnboarding.entity.TrainingModule;
+import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.mapper.TrainingModuleMapper;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
+import com.example.OrbitOnboarding.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TrainingModuleService {
 
-    private final TrainingModuleRepository repository;
-    private final TrainingModuleMapper mapper;
+    private final TrainingModuleRepository trainingRepository;
+    private final TrainingModuleMapper trainingMapper;
+    private final UserRepository userRepository;
 
     @Transactional
     public TrainingModuleResponse createModule(TrainingModuleRequest request){
 
-        TrainingModule module = mapper.toEntity(request);
-        TrainingModule saved = repository.save(module);
-        return mapper.toResponse(saved);
+
+        TrainingModule module = trainingMapper.toEntity(request);
+        String username = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+        User creator = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        module.setCreatedBy(creator);
+        TrainingModule saved = trainingRepository.save(module);
+        return trainingMapper.toResponse(saved);
 
     }
 
     @Transactional(readOnly = true)
     public List<TrainingModuleResponse> getAllModules() {
 
-        return repository.findAll()
+        return trainingRepository.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(trainingMapper::toResponse)
                 .toList();
     }
 
     @Transactional(readOnly = true)
     public TrainingModuleResponse getModuleById(Long id) {
 
-        TrainingModule module = repository.findById(id)
+        TrainingModule module = trainingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Training module not found"));
 
-        return mapper.toResponse(module);
+        return trainingMapper.toResponse(module);
     }
 
     @Transactional
     public TrainingModuleResponse updateModule(Long id, TrainingModuleRequest request){
 
-        TrainingModule module = repository.findById(id)
+        TrainingModule module = trainingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Training Module not found"));
         module.setTitle(request.getTitle());
         module.setDescription(request.getDescription());
-        TrainingModule updated = repository.save(module);
-        return mapper.toResponse(updated);
+        module.setUpdatedAt(LocalDateTime.now());
+        TrainingModule updated = trainingRepository.save(module);
+        return trainingMapper.toResponse(updated);
     }
 
     @Transactional
-    public void deleteModule(Long id){
+    public TrainingModuleDelete deleteModule(Long id){
 
-        if(!repository.existsById(id)){
-            throw new ResourceNotFoundException("Training Module does not exist");
-        }
+        TrainingModule module = trainingRepository.findById(id)
+                        .orElseThrow(()-> new ResourceNotFoundException("Article Not Found"));
 
-        repository.deleteById(id);
+        TrainingModuleDelete response = new TrainingModuleDelete(
+                module.getId(),
+                module.getTitle(),
+                module.getDescription(),
+                "Module Deleted Successfully"
+        );
+
+        trainingRepository.delete(module);
+        return response;
+
     }
 
 

@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
 
-        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN); //debug
 
     }
 

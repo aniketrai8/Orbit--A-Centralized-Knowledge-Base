@@ -1,10 +1,12 @@
 package com.example.OrbitOnboarding.controller;
 
 import com.example.OrbitOnboarding.dto.request.TrainingModuleRequest;
+import com.example.OrbitOnboarding.dto.response.TrainingModuleDelete;
 import com.example.OrbitOnboarding.dto.response.TrainingModuleResponse;
 import com.example.OrbitOnboarding.service.TrainingModuleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +30,7 @@ public class TrainingModuleController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Helps Create a new Training Module",description = "Only for ADMIN")
-    public ResponseEntity<TrainingModuleResponse> createModule(@RequestBody TrainingModuleRequest request){
+    public ResponseEntity<TrainingModuleResponse> createModule(@Valid @RequestBody TrainingModuleRequest request){
         return ResponseEntity.ok(service.createModule(request));
     }
 
@@ -61,7 +63,7 @@ public class TrainingModuleController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Updates the existing Module",description = "Only for ADMIN")
-    public ResponseEntity<TrainingModuleResponse> updateModule(@PathVariable Long id, @RequestBody TrainingModuleRequest request) {
+    public ResponseEntity<TrainingModuleResponse> updateModule(@Valid @PathVariable Long id, @RequestBody TrainingModuleRequest request) {
         return ResponseEntity.ok(service.updateModule(id, request));
     }
 
@@ -72,10 +74,8 @@ public class TrainingModuleController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Deletes an existing Module",description = "Only for ADMIN")
-    public ResponseEntity<String> deleteModule(@PathVariable Long id) {
-
-        service.deleteModule(id);
-        return ResponseEntity.ok("Training module deleted successfully");
+    public ResponseEntity<TrainingModuleDelete> deleteModule(@PathVariable Long id) {
+        return ResponseEntity.ok(service.deleteModule(id)); //change
     }
 
 
