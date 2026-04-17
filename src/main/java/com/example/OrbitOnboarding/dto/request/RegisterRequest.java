@@ -28,7 +28,6 @@ public class RegisterRequest {
     @NotBlank(message="Please enter full name")
     private String fullName;
 
-    @NotNull(message="Role is Required")
     private Role role;
 
 }
