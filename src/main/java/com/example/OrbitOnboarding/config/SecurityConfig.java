@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import java.time.LocalDateTime;
 
 @Configuration
@@ -91,25 +90,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-
-
-                /*
-                .exceptionHandling(ex -> ex
-    .accessDeniedHandler((request, response, accessDeniedException) -> {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setContentType("application/json");
-
-        response.getWriter().write("""
-            {
-              "status": 403,
-              "error": "Forbidden",
-              "message": "Access Denied",
-              "path": "%s"
-            }
-            """.formatted(request.getRequestURI()));
-    })
-)
-                 */
                 .addFilterBefore(jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -1,9 +1,7 @@
 package com.example.OrbitOnboarding.entity;
 
 
-/**
- * Gives a range of acceptable ArticleCategory as title;
- */
+
 public enum ArticleCategory {
 
     GIT_WORKFLOW,

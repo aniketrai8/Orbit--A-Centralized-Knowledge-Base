@@ -4,7 +4,6 @@ import com.example.OrbitOnboarding.dto.request.KnowledgeCreateRequest;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleListResponse;
 import com.example.OrbitOnboarding.dto.response.KnowledgeArticleResponse;
 import com.example.OrbitOnboarding.entity.KnowledgeArticle;
-import com.example.OrbitOnboarding.mapper.KnowledgeArticleMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -5,14 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.time.LocalDateTime;
 
-/*id: Primary key (auto-generated)
-userId: Foreign key to User
-trainingModuleId: Foreign key to TrainingModule
-completed: Boolean (default: false)
-completedAt: Timestamp (nullable)
-createdAt: Timestamp
-
- */
 
 @Entity
 @Table(name="module_progress",uniqueConstraints={@UniqueConstraint(columnNames={"user_id","training_module_id"})
@@ -37,7 +29,7 @@ public class ModuleProgress {
     @JoinColumn(name="training_module_id",nullable=false)
 
     private TrainingModule module;
-    private boolean completed = false;  //default value False
+    private boolean completed = false;
     private LocalDateTime completedAt;
     private LocalDateTime createdAt;
 
@@ -49,13 +41,4 @@ public class ModuleProgress {
     this.createdAt= createdAt!=null?createdAt:LocalDateTime.now();
     this.completedAt=LocalDateTime.now();
 }
-
-
-
-
-
-//mention isCompleted in GitHub
-    //Builder and noArgsConstructor cannot be used together
-
-
 }

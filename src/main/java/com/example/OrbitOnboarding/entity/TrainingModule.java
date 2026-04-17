@@ -1,18 +1,5 @@
 package com.example.OrbitOnboarding.entity;
 
-/*id: Primary key (auto-generated)
-title: 5-200 characters, required
-description: 10-500 characters, required
-content: Minimum 50 characters, required (TEXT type)
-moduleOrder: Positive integer, unique (sequence: 1, 2, 3...) //unique
-estimatedHours: 1-40 hours, required
-createdBy: Foreign key to User
-createdAt: Timestamp
-updatedAt: Timestamp
-
-
-
- */
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -78,8 +65,6 @@ public class TrainingModule {
     public void onUpdate(){
         updatedAt = LocalDateTime.now();
     }
-
-
 
 }
 
