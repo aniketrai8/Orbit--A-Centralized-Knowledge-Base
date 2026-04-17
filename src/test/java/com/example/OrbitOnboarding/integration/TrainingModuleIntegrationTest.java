@@ -155,7 +155,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/training/module")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(duplicateJson))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
 
     }
 
