@@ -122,15 +122,16 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
 
         String username = uniqueUsername();
 
+
             mockMvc.perform(post("/api/auth/register")
                     .contentType(MediaType.APPLICATION_JSON)
                             .content(buildRegisterRequest(username)))
-                    .andExpect(status().isBadRequest());
+                    .andExpect(status().isOk());
 
             mockMvc.perform(post("/api/auth/register")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(buildRegisterRequest(username)))
-                    .andExpect(status().is4xxClientError());
+                    .andExpect(status().isBadRequest());
 
     }
 
