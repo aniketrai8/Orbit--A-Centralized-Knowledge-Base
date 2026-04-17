@@ -40,7 +40,7 @@ public class TrainingModule {
 
     @NotNull
     @Size(min=5, max=200)
-    @Column(nullable=false)
+    @Column(unique=true,nullable=false)
     private String title;
 
     @NotNull
@@ -54,7 +54,7 @@ public class TrainingModule {
     private String content;
 
     @NotNull
-    @Column(nullable=false)
+    @Column(nullable=false,unique = true)
     private Integer moduleOrder;
 
     @NotNull

@@ -7,6 +7,7 @@ import com.example.OrbitOnboarding.dto.response.AuthResponse;
 import com.example.OrbitOnboarding.dto.response.RegisterResponse;
 import com.example.OrbitOnboarding.entity.User;
 import com.example.OrbitOnboarding.exception.BadRequestException;
+import com.example.OrbitOnboarding.exception.GlobalExceptionHandler;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.OrbitOnboarding.entity.Role;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 
 
@@ -24,6 +26,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Service
 public class AuthService {
+
+    private static final Logger log=LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -39,11 +43,16 @@ public class AuthService {
     @Transactional
     public RegisterResponse register(RegisterRequest request) {
 
+        log.info("Register attempt for username: {}", request.getUsername());
+
         if (userRepository.existsByUsername(request.getUsername())) {
+            log.error("Registration failed - Username already exists: {}", request.getUsername());
             throw new BadRequestException("Username already exists");
         }
 
+
         if (userRepository.existsByEmail(request.getEmail())) {
+            log.error("Registration failed - Email already exists: {}",request.getEmail());
             throw new BadRequestException("Email exists");
         }
 
@@ -57,6 +66,8 @@ public class AuthService {
         user.setCreatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);
+
+        log.info("User registered successfuly with id: {}",savedUser.getId());
 
         return RegisterResponse.builder()
                 .message("User Registered Successfully")
@@ -76,9 +87,17 @@ public class AuthService {
      */
     @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest request) {
+
+        log.info("Login attempt for username: {}",request.getUsername());
+
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> {
+                    log.error("Login failed - User not found: {}", request.getUsername());
+                    return new BadRequestException("User not found");
+
+                });
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            log.error("Login failed - Invalid password for user: {}", request.getUsername());
             throw new BadRequestException("Invalid password");
         }
 

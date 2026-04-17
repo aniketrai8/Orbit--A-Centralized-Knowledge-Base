@@ -18,7 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ModuleProgressService {
 
+    private static final Logger log = LoggerFactory.getLogger(Exception.class);
     private final TrainingModuleRepository moduleRepository;
     private final ModuleProgressRepository progressRepository;
     private final UserRepository userRepository;
@@ -39,7 +41,9 @@ public class ModuleProgressService {
                 .getName();
         System.out.println("SPRING SECURITY USERNAME = " + username);
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not Found"));
+                .orElseThrow(() ->
+                   new ResourceNotFoundException("User not Found")
+                );
         System.out.println("DB USER FOUND ID = " + user.getId());
         return user;
 
@@ -62,7 +66,10 @@ public class ModuleProgressService {
 
         User user = getCurrentUser();
         TrainingModule module = moduleRepository.findById(moduleId)
-                .orElseThrow(() -> new ResourceNotFoundException("Module Not Found")); //PRD requires a single module to be marked completed once
+                .orElseThrow(() -> {
+                    log.error("Module not found for id={}",moduleId);
+                    return new ResourceNotFoundException("Module Not Found");
+                }); //PRD requires a single module to be marked completed once
         progressRepository.findByUserAndModule(user, module).ifPresent(p -> {
             throw new DuplicateResource("Module Already completed"); //check once before finalizing
         });
@@ -79,6 +86,8 @@ public class ModuleProgressService {
         long totalModules = moduleRepository.count();
         long completedModules = progressRepository.countByUserAndCompletedTrue(user);
         double percentage = ((double) completedModules / totalModules) * 100;
+        log.info("User '{}' completed moduleId={} | Progress: {}%",
+                user.getUsername(), moduleId, percentage);
         return ModuleCompletionResponse.builder()
                 .message("Module marked as complete")
                 .moduleId(module.getId())
@@ -100,6 +109,7 @@ public class ModuleProgressService {
     public MyProgressSummary getMyProgress() {
 
         User user = getCurrentUser();
+        log.info("Fetching progress summary for user '{}'", user.getUsername());
         long totalModules = moduleRepository.count();
         long completedModule = progressRepository.countByUserAndCompletedTrue(user);
         double percentage;
@@ -108,6 +118,9 @@ public class ModuleProgressService {
         } catch (ArithmeticException ex) {
             percentage = 0;
         }
+        log.info("Progress summary for '{}' → total={}, completed={}, percentage={}",
+                user.getUsername(), totalModules, completedModule, percentage);
+
         ProgressSummaryResponse summary =
                 new ProgressSummaryResponse(
                         totalModules,

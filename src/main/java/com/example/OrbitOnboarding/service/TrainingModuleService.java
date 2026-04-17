@@ -6,6 +6,7 @@ import com.example.OrbitOnboarding.dto.response.TrainingModuleDelete;
 import com.example.OrbitOnboarding.dto.response.TrainingModuleResponse;
 import com.example.OrbitOnboarding.entity.TrainingModule;
 import com.example.OrbitOnboarding.entity.User;
+import com.example.OrbitOnboarding.exception.BadRequestException;
 import com.example.OrbitOnboarding.exception.ResourceNotFoundException;
 import com.example.OrbitOnboarding.mapper.TrainingModuleMapper;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
@@ -14,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 import java.time.LocalDateTime;
@@ -23,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrainingModuleService {
 
+    private static final Logger log = LoggerFactory.getLogger(Exception.class);
     private final TrainingModuleRepository trainingRepository;
     private final TrainingModuleMapper trainingMapper;
     private final UserRepository userRepository;
@@ -30,6 +35,16 @@ public class TrainingModuleService {
     @Transactional
     public TrainingModuleResponse createModule(TrainingModuleRequest request){
 
+        log.info("Create Module request recieved with module order: {}",request.getModuleOrder());
+
+        if(trainingRepository.existsByModuleOrder(request.getModuleOrder())){
+            log.error("Module creation failed ModuleOrder already exists: {}",request.getModuleOrder());
+            throw new BadRequestException("Module order already exists");
+        }
+        if(trainingRepository.existsByTitle(request.getTitle())){
+            log.error("Module creation failed, title already exists: {}",request.getTitle());
+            throw new BadRequestException("Module Title already exists");
+        }
 
         TrainingModule module = trainingMapper.toEntity(request);
         String username = SecurityContextHolder.getContext()
@@ -38,6 +53,7 @@ public class TrainingModuleService {
         User creator = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         module.setCreatedBy(creator);
+
         TrainingModule saved = trainingRepository.save(module);
         return trainingMapper.toResponse(saved);
 
@@ -76,8 +92,13 @@ public class TrainingModuleService {
     @Transactional
     public TrainingModuleDelete deleteModule(Long id){
 
+        log.info("Deleting Module with id: {}",id);
+
         TrainingModule module = trainingRepository.findById(id)
-                        .orElseThrow(()-> new ResourceNotFoundException("Article Not Found"));
+                        .orElseThrow(()-> {
+                            log.error("Module Deletion failed - module not found with id: {}",id);
+                             return new ResourceNotFoundException("Article Not Found");
+                        });
 
         TrainingModuleDelete response = new TrainingModuleDelete(
                 module.getId(),

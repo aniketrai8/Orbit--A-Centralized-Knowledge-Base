@@ -4,15 +4,15 @@ package com.example.OrbitOnboarding.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.validation.FieldError;
-
 import javax.naming.AuthenticationException;
-import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 //Creating a centralized class for all Exceptions
@@ -20,8 +20,13 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
     //Handles Exception for a missing username or email
     //404
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
+
+        log.error("Resource not found at {} : {}", request.getRequestURI(), ex.getMessage());
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
@@ -41,10 +46,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthentication(Exception ex, HttpServletRequest request) {
 
+        log.error("Authentication failed at {} :{}",request.getRequestURI(),ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),
-                "Unauthorized Access",
+                "JWT Token not valid",
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -54,8 +60,8 @@ public class GlobalExceptionHandler {
 
     //Access Denied due to role Mismatch
     //403
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDenied(Exception ex, HttpServletRequest request) {
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAuthorization(AuthenticationException ex, HttpServletRequest request) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
@@ -65,7 +71,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
 
-        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN); //debug
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
 
     }
 
@@ -73,6 +79,8 @@ public class GlobalExceptionHandler {
     //409
     @ExceptionHandler(DuplicateResource.class)
     public ResponseEntity<ErrorResponse> handleDuplicate(DuplicateResource ex, HttpServletRequest request) {
+
+        log.error("Duplicate resource at {} : {}", request.getRequestURI(), ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
@@ -115,6 +123,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobal(
             Exception ex, HttpServletRequest request) {
+
+        log.error("Unhandled exception at {} : {}", request.getRequestURI(), ex.getMessage(),ex);
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -130,6 +140,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleBadRequest(BadRequestException ex,
                                               HttpServletRequest request) {
 
+        log.error("Bad Request at {}:{}",request.getRequestURI(),ex.getMessage());
+
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
@@ -142,5 +154,6 @@ public class GlobalExceptionHandler {
 
 
     }
+
 }
 

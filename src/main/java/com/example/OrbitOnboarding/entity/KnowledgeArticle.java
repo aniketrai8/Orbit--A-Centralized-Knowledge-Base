@@ -20,7 +20,7 @@ public class KnowledgeArticle {
     private Long id;
 
     @Size(min=5,max=200)
-    @Column(nullable=false)
+    @Column(unique = true,nullable = false)
     private String title;
 
     @Size(min=20,max=1000)

@@ -15,6 +15,8 @@ public interface TrainingModuleRepository extends JpaRepository<TrainingModule,L
      * @return helps count total modules
      */
     long count();
+    boolean existsByModuleOrder(Integer moduleOrder);
+    boolean existsByTitle(String title);
 }
 
 

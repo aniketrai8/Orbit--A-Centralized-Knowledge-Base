@@ -1,6 +1,7 @@
 
 package com.example.OrbitOnboarding.dto.request;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class TrainingModuleRequest {
     private String content;
 
     @NotNull
+    @Column(unique = true)
     private Integer moduleOrder;
 
     @NotNull

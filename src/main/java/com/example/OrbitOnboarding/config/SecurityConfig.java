@@ -2,6 +2,7 @@ package com.example.OrbitOnboarding.config;
 
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.time.LocalDateTime;
 
 @Configuration
 @RequiredArgsConstructor
@@ -54,6 +57,25 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json");
+
+                            response.getWriter().write("""
+            {
+              "timestamp": "%s",
+              "status": 403,
+              "error": "Access Denied",
+              "message": "You do not have permission to access this resource",
+              "path": "%s"
+            }
+            """.formatted(
+                                    LocalDateTime.now(),
+                                    request.getRequestURI()
+                            ));
+                        })
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( "/v3/api-docs/**",
                                 "/v3/api-docs",
@@ -68,6 +90,26 @@ public class SecurityConfig {
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
+
+
+
+                /*
+                .exceptionHandling(ex -> ex
+    .accessDeniedHandler((request, response, accessDeniedException) -> {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("application/json");
+
+        response.getWriter().write("""
+            {
+              "status": 403,
+              "error": "Forbidden",
+              "message": "Access Denied",
+              "path": "%s"
+            }
+            """.formatted(request.getRequestURI()));
+    })
+)
+                 */
                 .addFilterBefore(jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class);
         return http.build();

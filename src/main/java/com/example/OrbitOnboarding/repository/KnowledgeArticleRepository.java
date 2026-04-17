@@ -30,4 +30,6 @@ LIKE LOWER(CONCAT('%spring%'));
             String content
     );
 
+    boolean existsByTitle(String Title);
+
 }
