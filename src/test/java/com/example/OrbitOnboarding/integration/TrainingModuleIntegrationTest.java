@@ -32,7 +32,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
           "moduleOrder":1,
           "estimatedHour":5
         }
-        """;
+        """.formatted(unique("Spring Boot Basics"));
 
         // secured endpoint -> should reject without auth
         mockMvc.perform(post("/api/training/module")
@@ -100,7 +100,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
           "moduleOrder":3,
           "estimatedHour":4
         }
-        """;
+        """.formatted(unique("Spring Boot Basics"));
 
         mockMvc.perform(put("/api/training/module/"+ saved.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -155,7 +155,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(post("/api/training/module")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(duplicateJson))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isBadRequest());
 
     }
 
