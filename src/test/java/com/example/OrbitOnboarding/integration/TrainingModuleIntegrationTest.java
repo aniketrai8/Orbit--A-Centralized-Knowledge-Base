@@ -56,6 +56,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(get("/api/training/module"))
                 .andExpect(status().isForbidden());
     }
+    //
 
     @Test
     void shouldGetModuleById() throws Exception{
