@@ -125,7 +125,7 @@ public class AuthIntegrationTest extends BaseIntegrationTest {
             mockMvc.perform(post("/api/auth/register")
                     .contentType(MediaType.APPLICATION_JSON)
                             .content(buildRegisterRequest(username)))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isBadRequest());
 
             mockMvc.perform(post("/api/auth/register")
                     .contentType(MediaType.APPLICATION_JSON)

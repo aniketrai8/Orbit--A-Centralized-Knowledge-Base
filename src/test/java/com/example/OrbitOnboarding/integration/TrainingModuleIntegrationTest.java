@@ -16,6 +16,10 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
     @Autowired
     TrainingModuleRepository repository;
 
+    private String unique(String base) {
+        return base + "_" + System.currentTimeMillis();
+    }
+
     @Test
     void shouldCreateTrainingModule() throws Exception {
 
@@ -40,11 +44,11 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
     void shouldGetAllModules() throws Exception {
 
         TrainingModule module = new TrainingModule();
-        module.setTitle("Test Module");
+        module.setTitle(unique("Test Module"));
         module.setDescription("description long enough");
         module.setContent("content content content content content content, This is a detailed training module content used only for \" +\n" +
                 "    \"integration testing purposes and must exceed fifty characters.");
-        module.setModuleOrder(1);
+        module.setModuleOrder((int)(System.currentTimeMillis() % 10000));
         module.setEstimatedHour(2);
 
         repository.save(module);
@@ -57,11 +61,11 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
     void shouldGetModuleById() throws Exception{
 
         TrainingModule module = new TrainingModule();
-        module.setTitle("Module One");
+        module.setTitle(unique("Module One"));
         module.setDescription("description long enough");
         module.setContent("content content content content content content, This is a detailed training module content used only for \\\" +\\n\" +\n" +
                 "                \"    \\\"integration testing purposes and must exceed fifty characters.");
-        module.setModuleOrder(2);
+        module.setModuleOrder((int)(System.currentTimeMillis() % 10000));
         module.setEstimatedHour(8);
 
         TrainingModule saved = repository.save(module);
@@ -75,11 +79,11 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
 
         TrainingModule module= new TrainingModule();
 
-        module.setTitle("Old Title");
+        module.setTitle(unique("Old Title"));
         module.setDescription("description long enough");
         module.setContent("content content content content content content, This is a detailed training module content used only for \\\" +\\n\" +\n" +
                 "                \"    \\\"integration testing purposes and must exceed fifty characters");
-        module.setModuleOrder(3);
+        module.setModuleOrder((int)(System.currentTimeMillis() % 10000));
         module.setEstimatedHour(11);
 
         TrainingModule saved = repository.save(module);
@@ -107,17 +111,17 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
     void shouldDeleteTrainingModule() throws Exception{
 
         TrainingModule module = new TrainingModule();
-        module.setTitle("Delete Module");
+        module.setTitle(unique("Delete Module"));
         module.setDescription("description long enough");
         module.setContent("content content content content content content, This is a detailed training module content used only for \\\\\\\" +\\\\n\\\" +\\n\" +\n" +
                 "                \"                \\\"    \\\\\\\"integration testing purposes and must exceed fifty characters");
 
-        module.setModuleOrder(6);
+        module.setModuleOrder((int)(System.currentTimeMillis() % 10000));
         module.setEstimatedHour(3);
 
         TrainingModule saved = repository.save(module);
 
-        mockMvc.perform(delete("/api/training/module" +saved.getId()))
+        mockMvc.perform(delete("/api/training/module/" +saved.getId()))
                 .andExpect(status().isForbidden());
 
     }
@@ -130,40 +134,28 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         module.setDescription("description long enough");
         module.setContent("content content content content content content, This is a detailed training module content used only for \\\\\\\\\\\\\\\" +\\\\\\\\n\\\\\\\" +\\\\n\\\" +\\n\" +\n" +
                 "                \"                \\\"                \\\\\\\"    \\\\\\\\\\\\\\\"integration testing purposes and must exceed fifty characters");
-        module.setModuleOrder(7);
+        int order = (int) (System.currentTimeMillis() % 10000);
+        module.setModuleOrder(order);
         module.setEstimatedHour(12);
-
         repository.save(module);
 
 
         String duplicateJson = """
         {
-          "title":"Duplicate Order Module",
+          "title":"%s",
           "description":"another description long enough",
           "content":"duplicate duplicate duplicate duplicate duplicate duplicate duplicate duplicate",
-          "moduleOrder":5,
+          "moduleOrder":%d,
           "estimatedHour":3
         }
-        """;
+        """.formatted(unique("Duplicate Moudle order"),order);
 
         mockMvc.perform(post("/api/training/module/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(duplicateJson))
-                .andExpect(status().isForbidden());
-
-
-
-
+                .andExpect(status().isBadRequest());
 
     }
 
-   /*
-   Create module as ADMIN
-List modules
-Get module with progress
-Update module
-Delete module
-Prevent duplicate moduleOrder
-    */
 
 }
