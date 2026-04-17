@@ -131,7 +131,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
     void shouldPreventDuplicateModuleOrder() throws Exception {
 
         TrainingModule module = new TrainingModule();
-        module.setTitle("Module already exists");
+        module.setTitle(unique("Module already exists"));
         module.setDescription("description long enough");
         module.setContent("content content content content content content, This is a detailed training module content used only for \\\\\\\\\\\\\\\" +\\\\\\\\n\\\\\\\" +\\\\n\\\" +\\n\" +\n" +
                 "                \"                \\\"                \\\\\\\"    \\\\\\\\\\\\\\\"integration testing purposes and must exceed fifty characters");
@@ -149,7 +149,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
           "moduleOrder":%d,
           "estimatedHour":3
         }
-        """.formatted(unique("Duplicate Moudle order"),order);
+        """.formatted(unique("Duplicate Module order"),order);
 
         mockMvc.perform(post("/api/training/module/")
                 .contentType(MediaType.APPLICATION_JSON)
