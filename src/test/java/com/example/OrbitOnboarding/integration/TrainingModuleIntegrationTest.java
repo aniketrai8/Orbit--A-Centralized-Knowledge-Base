@@ -26,7 +26,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
 
         String json = """
         {
-          "title":"Spring Boot Basics",
+          "title":"%s",
           "description":"Learn fundamentals of Spring Boot",
           "content":"This module explains Spring Boot architecture and setup in detail.",
           "moduleOrder":1,
@@ -93,7 +93,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
 
         String updateJson = """
         {
-          "title":"Updated Title",
+          "title":"%s",
           "description":"updated description long enough",
           "content":"content content content content content content, This is a detailed training module content used only for \\\\\\" +\\\\n\\" +\\n" +
                                              "                \\"    \\\\\\"integration testing purposes and must exceed fifty characters",
