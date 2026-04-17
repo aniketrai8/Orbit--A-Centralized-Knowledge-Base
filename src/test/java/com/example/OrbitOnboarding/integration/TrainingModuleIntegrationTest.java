@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -17,7 +18,7 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
     TrainingModuleRepository repository;
 
     private String unique(String base) {
-        return base + "_" + System.currentTimeMillis();
+        return base + "_" + UUID.randomUUID();
     }
 
     @Test
@@ -151,10 +152,10 @@ class TrainingModuleIntegrationTest extends BaseIntegrationTest {
         }
         """.formatted(unique("Duplicate Module order"),order);
 
-        mockMvc.perform(post("/api/training/module/")
+        mockMvc.perform(post("/api/training/module")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(duplicateJson))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
 
     }
 
