@@ -2,11 +2,10 @@ package com.example.OrbitOnboarding.integration;
 
 import com.example.OrbitOnboarding.entity.TrainingModule;
 import com.example.OrbitOnboarding.repository.TrainingModuleRepository;
-
 import com.example.OrbitOnboarding.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.UUID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,6 +21,10 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
     @Autowired
     UserRepository userRepository;
 
+    private String unique(String base) {
+        return base + "_" + UUID.randomUUID();
+    }
+
     /**
      * @throws Exception
      */
@@ -30,7 +33,7 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
 
         // create module
         TrainingModule module = new TrainingModule();
-        module.setTitle("Spring Boot");
+        module.setTitle(unique("Spring Boot"));
         module.setDescription("Valid description text");
         module.setContent("This is valid module content long enough for validation.This explains git branching strategy used in company. This content is intentionally long enough to pass validation constraints.\"\n" +
                 "  ");
@@ -48,7 +51,7 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
     void shouldMarkModuleComplete() throws Exception{
 
         TrainingModule module = new TrainingModule();
-        module.setTitle("Spring Boot");
+        module.setTitle(unique("Spring Boot"));
         module.setDescription("Valid description text");
         module.setContent("This is valid module content long enough for validation.This explains git branching strategy used in company. This content is intentionally long enough to pass validation constraints.\\\"\\n\" +\n" +
                 "                \"  ");
@@ -67,7 +70,7 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
     void shouldPreventDuplicateCompletion() throws Exception{
 
         TrainingModule module = new TrainingModule();
-        module.setTitle("Spring Boot");
+        module.setTitle(unique("Spring Boot"));
         module.setDescription("Valid description text");
         module.setContent("This is valid module content long enough for validation.This explains git branching strategy used in company. This content is intentionally long enough to pass validation constraints.\\\"\\n\" +\n" +
                 "                \"  ");
@@ -88,7 +91,7 @@ public class ProgressModuleIntegrationTest extends BaseIntegrationTest {
 
         for(int i=0;i<=5;i++){
             TrainingModule module = new TrainingModule();
-            module.setTitle("SpringBoot");
+            module.setTitle(unique("SpringBoot"));
             module.setDescription("Valid description text");
             module.setContent("This is valid module content long enough for validation.This explains git branching strategy used in company. This content is intentionally long enough to pass validation constraints.\\\\\\\"\\\\n\\\" +\\n\" +\n" +
                     "                \"                \\\" ");
